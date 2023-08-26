@@ -1,11 +1,11 @@
-import mongoose, { model } from "mongoose";
-import { IUser } from "../interface";
+// import mongoose, { model } from "mongoose";
+// import { IUser } from "../interface";
 
 
 
-const UserSchema = new mongoose.Schema <IUser>(
-    {
+// const UserSchema = new mongoose.Schema <IUser>(
+//     {
         
-    }
-)
+//     }
+// )
 
