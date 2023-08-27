@@ -1,8 +1,11 @@
 import express, {Express} from "express";
+import { Request,Response } from "express";
 import mongoose,{ConnectOptions} from "mongoose";
 import { dbConfig } from "./config/dbConfig";
 
 const app :Express= express();
+
+app.use(express.json())
 
 //mongooes database
 mongoose.set("strictQuery", true);
@@ -11,5 +14,18 @@ mongoose.set("strictQuery", true);
  }).catch ((error)=>{
     console.log(error);
  })
+
+
+ //test api with http::/localhost:3000/
+ app.get("/", (req: Request, res: Response) => {
+   console.log(req.body)
+   res.json({ message: "Hello, there" });
+ })
+
+ //routes 
+ import { router } from "./routes";
+ app.use("/api",router);
+
+
 
 export {app};
