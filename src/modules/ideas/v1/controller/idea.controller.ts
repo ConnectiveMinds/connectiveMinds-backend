@@ -1,8 +1,9 @@
-import express,{Request,Response} from "express";
+import express,{Request,Response,NextFunction} from "express";
 import  {Idea,  createIdeaDB } from "../model/ideas.model";
 
 const IdeaDetail = async (req:Request,res:Response)=>
 {
+   
     let data = await Idea.find();
     res.json(
         {
@@ -24,6 +25,8 @@ export const CreateIdea =async (req:Request,res:Response) => {
     
     
 }
+
+
 export{
     IdeaDetail
 }

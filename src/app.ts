@@ -3,9 +3,11 @@ import { Request,Response } from "express";
 import mongoose,{ConnectOptions} from "mongoose";
 import { dbConfig } from "./config/dbConfig";
 
+
 const app :Express= express();
 
 app.use(express.json())
+
 
 //mongooes database
 mongoose.set("strictQuery", true);
@@ -24,8 +26,10 @@ mongoose.set("strictQuery", true);
 
  //routes 
  import { router } from "./routes";
+
  app.use("/api",router);
+ 
 
-
+//"email": "ashim@gmail.com",password": "Asim123"
 
 export {app};
