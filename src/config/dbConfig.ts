@@ -8,3 +8,4 @@ export const dbConfig =
         useUnifiedTopology: true,
       },
 }
+

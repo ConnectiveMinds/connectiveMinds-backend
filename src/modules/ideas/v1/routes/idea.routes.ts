@@ -3,8 +3,8 @@ import { CreateIdea, IdeaDetail } from "../controller/idea.controller";
 const idearouter = express.Router();
 
 
-idearouter.get("/idea",IdeaDetail)
-idearouter.post("/idea/create",CreateIdea)
+idearouter.get("/",IdeaDetail)
+idearouter.post("/create",CreateIdea)
 export{
     idearouter
     
