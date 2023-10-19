@@ -2,10 +2,24 @@ import express, { Express } from "express";
 import { Request, Response } from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 import { dbConfig } from "./config/dbConfig";
+import cors  from 'cors';
+
+
 
 const app: Express = express();
 
+
+const allowedOrigins = '*';
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+// Then pass these options to cors:
+app.use(cors(options));
+
 app.use(express.json());
+
 
 //mongooes database
 mongoose.set("strictQuery", true);
