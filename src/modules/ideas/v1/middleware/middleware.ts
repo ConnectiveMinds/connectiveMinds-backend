@@ -12,6 +12,7 @@ export const authenticateToken = async (req:Request,res:Response,next:NextFuncti
     if(token == null) return  res.status (401).json({message:"Token not found"})
     
     const user = jwt.verify(token as string,process.env.JWT_TOKEN as string);
+    console.log(user);
     
    
     next()
