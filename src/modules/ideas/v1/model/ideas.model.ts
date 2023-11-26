@@ -3,7 +3,7 @@ import { IIdea } from '../interface';
 
 const IdeaSchema = new mongoose.Schema<IIdea>(
     {
-    owner:
+    ownerId:
     {
         type:mongoose.Schema.ObjectId,
         ref:"User",
@@ -28,6 +28,10 @@ const IdeaSchema = new mongoose.Schema<IIdea>(
     {
         type:[String],
         
+    },
+    members:{
+        type:[mongoose.Schema.ObjectId],
+        ref:"User",
     }
 
     },
