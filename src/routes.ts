@@ -7,6 +7,6 @@ import { chatroute } from "./modules/chat/v1/routes";
 export const router = Router();
 
 router.use("/v1/user", userauth);
-router.use("/idea", idearouter);
+router.use("/v1/idea", idearouter);
 router.use("/calendar", claendarroute);
 router.use("/v1/chat", chatroute);

@@ -3,14 +3,14 @@ import { Idea, createIdeaDB } from "../model/ideas.model";
 import { authenticateToken } from "../../../middlewares/auth.middleware";
 
 export const IdeaDetail = async (req: Request, res: Response) => {
-  // The authenticateToken middleware should be called here
+
   authenticateToken(req, res, (err: any) => {
     if (err) {
-      // Handle any authentication errors if needed
+     
       return res.status(401).json({ message: "Authentication failed" });
     }
 
-    // Continue with your route logic
+    
     Idea.find()
       .then((data) => {
         res.json({ data });
@@ -22,17 +22,18 @@ export const IdeaDetail = async (req: Request, res: Response) => {
 };
 
 export const CreateIdea = async (req: Request, res: Response) => {
-  authenticateToken(req, res, (err: any) => {
-    if (err) {
-      // Handle any authentication errors if needed
-      return res.status(401).json({ message: "Authentication failed" });
-    }
+  console.log("req");
+  
+console.log("dsad");
+    const { title, description, status, skills, ownerId } = req.body;
+    console.log(title);
+    console.log(description)
+    console.log(status)
+    console.log(skills)
+    console.log(ownerId)
 
-    const { title, description, status, skills, owner } = req.body;
-
-    // Continue with your route logic
     const idea = createIdeaDB({
-      owner,
+      ownerId,
       title,
       description,
       skills,
@@ -40,5 +41,20 @@ export const CreateIdea = async (req: Request, res: Response) => {
     });
 
     res.json(idea);
-  });
+  
+};
+
+export const findGroupsbyUserId = async (userId) => {
+  try {
+    const groups = await Idea.find({
+      $or: [
+        { ownerId: userId }, // Check if the user is the owner
+        { members: { $in: [userId] } }, // Check if the user is a member
+      ],
+    });
+
+    return groups;
+  } catch (error: any) {
+    throw new Error(`Error finding groups: ${error.message}`);
+  }
 };
