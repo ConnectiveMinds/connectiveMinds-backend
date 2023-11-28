@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
-import { ChatModel } from "../model/chat.models";
+import { Chat } from "../model/chat.models";
 import { IChat } from "../interface";
+import { Idea } from "../../../ideas/v1/model/ideas.model";
+import { AuthRequest } from "../../../../interface/request.interface";
 
 interface request<T> extends Request {
   body: T;
@@ -9,7 +11,7 @@ export const savemessage = async (req: request<IChat>, res: Response) => {
   try {
     let message;
     console.log(req);
-    message = await ChatModel.create({
+    message = await Chat.create({
       senderId: req.query.senderId,
       message: req.body.message,
     });
@@ -26,18 +28,28 @@ export const savemessage = async (req: request<IChat>, res: Response) => {
     });
   }
 };
-export const getallMessages = async (req: Request, res: Response) => {
+export const getallMessages = async (
+  req: AuthRequest<{}, {}, IChat>,
+  res: Response
+) => {
   try {
-    console.log("sds");
-    console.log(req);
-    const messages = await ChatModel.find({
-      projectId: req.params.projectId,
-    }).populate("messageId");
-    return res.status(200).json({
-      success: true,
-      data: messages,
-      message: "Success",
-    });
+    let project = await Idea.findById({ _id: req?.params?.projectId });
+    if (project) {
+      const messages = await Chat.find({
+        projectId: req?.params?.projectId,
+      });
+      return res.status(200).json({
+        success: true,
+        data: messages,
+        message: "Success",
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        data: {},
+        message: "No Projects Found",
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       success: false,

@@ -1,8 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { AuthRequest, IPayload } from "../interface/request.interface";
 
 export const authenticateToken = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -14,7 +15,7 @@ export const authenticateToken = async (
     ) {
       return next();
     }
-    const authHeader = req.headers["authorization"];
+    const authHeader = req?.headers?.authorization;
     const token = authHeader?.split(" ")[1];
 
     if (token == null)
@@ -22,6 +23,7 @@ export const authenticateToken = async (
 
     const user = jwt.verify(token as string, process.env.JWT_TOKEN as string);
 
+    req.user = user as IPayload;
     next();
   } catch (err) {
     res.send(err);

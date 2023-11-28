@@ -1,60 +1,55 @@
-import express, { Request, Response } from "express";
+import { Request } from "express";
 import { Idea, createIdeaDB } from "../model/ideas.model";
-import { authenticateToken } from "../../../middlewares/auth.middleware";
 
-export const IdeaDetail = async (req: Request, res: Response) => {
-
-  authenticateToken(req, res, (err: any) => {
-    if (err) {
-     
-      return res.status(401).json({ message: "Authentication failed" });
-    }
-
-    
-    Idea.find()
-      .then((data) => {
-        res.json({ data });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: "Internal server error" });
-      });
-  });
-};
-
+import { AuthRequest } from "../../../../interface/request.interface";
+import { Iget } from "../interface";
+import { User } from "../../../user/v1";
+import { Response } from "express";
 export const CreateIdea = async (req: Request, res: Response) => {
   console.log("req");
-  
-console.log("dsad");
-    const { title, description, status, skills, ownerId } = req.body;
-    console.log(title);
-    console.log(description)
-    console.log(status)
-    console.log(skills)
-    console.log(ownerId)
 
-    const idea = createIdeaDB({
-      ownerId,
-      title,
-      description,
-      skills,
-      status,
-    });
+  console.log("dsad");
+  const { title, description, status, skills, ownerId } = req.body;
+  console.log(title);
+  console.log(description);
+  console.log(status);
+  console.log(skills);
+  console.log(ownerId);
 
-    res.json(idea);
-  
+  const idea = createIdeaDB({
+    ownerId,
+    title,
+    description,
+    skills,
+    status,
+  });
+
+  res.json(idea);
 };
 
-export const findGroupsbyUserId = async (userId) => {
+export const getideasbyUserId = async (
+  req: AuthRequest<Iget>,
+  res: Response
+) => {
   try {
-    const groups = await Idea.find({
-      $or: [
-        { ownerId: userId }, // Check if the user is the owner
-        { members: { $in: [userId] } }, // Check if the user is a member
-      ],
-    });
+    let user;
+    let userId = req.user?.userId;
+    user = await User.findById({ _id: userId });
 
-    return groups;
-  } catch (error: any) {
-    throw new Error(`Error finding groups: ${error.message}`);
+    if (user) {
+      const groups = await Idea.find({
+        $or: [
+          { ownerId: userId },
+          {
+            members: {
+              $in: [userId],
+            },
+          },
+        ],
+      });
+      res.sendResponse(groups);
+    }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
   }
 };
