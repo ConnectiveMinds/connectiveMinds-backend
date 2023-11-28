@@ -17,6 +17,8 @@ app.use(cors(options));
 
 app.use(express.json());
 
+import { responseMiddleware } from "./middlewares/response.middleware";
+app.use(responseMiddleware);
 //mongooes database
 mongoose.set("strictQuery", true);
 mongoose
@@ -32,7 +34,7 @@ mongoose
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hello, there" });
 });
-import { authenticateToken } from "./modules/middlewares/auth.middleware";
+import { authenticateToken } from "./middlewares/auth.middleware";
 //routes
 import { router } from "./routes";
 app.use("/api", authenticateToken, router);
