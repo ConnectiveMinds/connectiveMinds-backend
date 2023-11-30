@@ -17,8 +17,9 @@ mongoose.set("strictQuery", true);
 
 
  //test api with http::/localhost:3000/
- app.get("/", (req: Request, res: Response) => {
-   console.log(req.body)
+app.get("/", (req: Request, res: Response) => {
+   
+     console.log(req.body)
    res.json({ message: "Hello, there" });
  })
 

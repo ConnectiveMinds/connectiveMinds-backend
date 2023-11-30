@@ -4,12 +4,12 @@ enum gender {
 }
 
 export interface IUser {
-    name: string,
-    phoneNo:number,
-    email: string,
-    password?: string,
-    address: string,
-    gender: gender,  
+  name: string;
+  phoneNo: number;
+  email: string;
+  password?: string;
+  address: string;
+  gender: gender;
 }
 
 export interface ILogin{

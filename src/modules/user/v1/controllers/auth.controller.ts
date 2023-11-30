@@ -24,7 +24,8 @@ export const registerUser =async(
         }
         else
         {
-            user=await User.create(req.body);
+            user = await User.create(req.body);
+            console.log(req.body)
         }
         return res.status(200).json({
             success:true,
