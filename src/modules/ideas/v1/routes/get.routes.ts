@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getideasbyUserId } from "../controller/idea.controller";
+import { getallprojects, getideasbyUserId } from "../controller/get.controller";
 
 export const getIdeaRoute = Router();
 getIdeaRoute.get("/", getideasbyUserId);
+getIdeaRoute.get("/all", getallprojects);
