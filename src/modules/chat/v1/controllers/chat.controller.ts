@@ -10,7 +10,7 @@ interface request<T> extends Request {
 export const savemessage = async (req: request<IChat>, res: Response) => {
   try {
     let message;
-    console.log(req);
+
     message = await Chat.create({
       senderId: req.query.senderId,
       message: req.body.message,
@@ -38,23 +38,11 @@ export const getallMessages = async (
       const messages = await Chat.find({
         projectId: req?.params?.projectId,
       });
-      return res.status(200).json({
-        success: true,
-        data: messages,
-        message: "Success",
-      });
+      res.sendResponse(messages);
     } else {
-      return res.status(401).json({
-        success: false,
-        data: {},
-        message: "No Projects Found",
-      });
+      res.sendError(400, "Invalid Credentials", "Project Not Found");
     }
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: err,
-      message: "Error",
-    });
+    res.sendError(500, err, "Internal Server Error");
   }
 };
