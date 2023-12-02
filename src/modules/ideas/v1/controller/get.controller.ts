@@ -39,3 +39,46 @@ export const getallprojects = async (req: AuthRequest<Iget>, res: Response) => {
     res.sendError(500, e, "Internal Server Error");
   }
 };
+
+export const getIncomingRequest = async (
+  req: AuthRequest<Iget>,
+  res: Response
+) => {
+  try {
+    let userId = req.user?.userId;
+    if (userId) {
+      const request = await Idea.find({
+        ownerId: userId,
+      }).populate({
+        path: "joinRequest",
+        select: {
+          email: 1,
+          _id: 1,
+        },
+      });
+
+      res.sendResponse(request);
+    } else {
+      res.sendError(401, "Unauthorized", "User Empty");
+    }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
+
+export const getSentRequest = async (req: AuthRequest<Iget>, res: Response) => {
+  try {
+    let userId = req.user?.userId;
+    if (userId) {
+      const request = await Idea.find({
+        joinRequest: userId,
+      });
+
+      res.sendResponse(request);
+    } else {
+      res.sendError(401, "Unauthorized", "User Empty");
+    }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
