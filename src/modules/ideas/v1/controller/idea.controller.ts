@@ -1,29 +1,55 @@
-import express,{Request,Response} from "express";
-import  {Idea,  createIdeaDB } from "../model/ideas.model";
+import { Request } from "express";
+import { Idea, createIdeaDB } from "../model/ideas.model";
 
-const IdeaDetail = async (req:Request,res:Response)=>
-{
-    let data = await Idea.find();
-    res.json(
-        {
-            data:data
-        }
-    )
-}
-export const CreateIdea =async (req:Request,res:Response) => {
-    
-        const {title,description,status,skills} = req.body;
-        const idea = await createIdeaDB({
-            title,
-            description,
-            skills,
-            status
-        });
-        res.json(idea);
-       
-    
-    
-}
-export{
-    IdeaDetail
-}
+import { AuthRequest } from "../../../../interface/request.interface";
+import { Iget } from "../interface";
+import { User } from "../../../user/v1";
+import { Response } from "express";
+export const CreateIdea = async (req: Request, res: Response) => {
+  console.log("req");
+
+  console.log("dsad");
+  const { title, description, status, skills, ownerId } = req.body;
+  console.log(title);
+  console.log(description);
+  console.log(status);
+  console.log(skills);
+  console.log(ownerId);
+
+  const idea = createIdeaDB({
+    ownerId,
+    title,
+    description,
+    skills,
+    status,
+  });
+
+  res.json(idea);
+};
+
+export const getideasbyUserId = async (
+  req: AuthRequest<Iget>,
+  res: Response
+) => {
+  try {
+    let user;
+    let userId = req.user?.userId;
+    user = await User.findById({ _id: userId });
+
+    if (user) {
+      const groups = await Idea.find({
+        $or: [
+          { ownerId: userId },
+          {
+            members: {
+              $in: [userId],
+            },
+          },
+        ],
+      });
+      res.sendResponse(groups);
+    }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};

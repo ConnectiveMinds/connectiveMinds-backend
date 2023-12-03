@@ -1,32 +1,42 @@
-import express, {Express} from "express";
-import { Request,Response } from "express";
-import mongoose,{ConnectOptions} from "mongoose";
+import express, { Express } from "express";
+import { Request, Response } from "express";
+import mongoose, { ConnectOptions } from "mongoose";
 import { dbConfig } from "./config/dbConfig";
+import cors from "cors";
 
-const app :Express= express();
+const app: Express = express();
 
-app.use(express.json())
+const allowedOrigins = "*";
 
+const options: cors.CorsOptions = {
+  origin: allowedOrigins,
+};
+
+// Then pass these options to cors:
+app.use(cors(options));
+
+app.use(express.json());
+
+import { responseMiddleware } from "./middlewares/response.middleware";
+app.use(responseMiddleware);
 //mongooes database
 mongoose.set("strictQuery", true);
- mongoose.connect(dbConfig.uri! ,dbConfig.options as ConnectOptions).then(()=>{
+mongoose
+  .connect(dbConfig.uri!, dbConfig.options as ConnectOptions)
+  .then(() => {
     console.log("Database Connected");
- }).catch ((error)=>{
+  })
+  .catch((error) => {
     console.log(error);
- })
+  });
 
-
- //test api with http::/localhost:3000/
+//test api with http::/localhost:3000/
 app.get("/", (req: Request, res: Response) => {
-   
-     console.log(req.body)
-   res.json({ message: "Hello, there" });
- })
+  res.json({ message: "Hello, there" });
+});
+import { authenticateToken } from "./middlewares/auth.middleware";
+//routes
+import { router } from "./routes";
+app.use("/api", authenticateToken, router);
 
- //routes 
- import { router } from "./routes";
- app.use("/api",router);
-
-
-
-export {app};
+export { app };
