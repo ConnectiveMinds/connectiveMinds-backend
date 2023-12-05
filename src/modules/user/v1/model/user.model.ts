@@ -1,6 +1,7 @@
 import mongoose, { model } from "mongoose";
 import { IUser } from "../interface";
 import jwt from "jsonwebtoken";
+import { string } from "zod";
 
 export interface IUserSchema extends IUser {
   createToken: () => string;
@@ -17,7 +18,10 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
       type: String,
       required: true,
     },
-
+    name: {
+      type: String,
+      required: true,
+    },
     phoneNo: {
       type: Number,
       unique: true,
