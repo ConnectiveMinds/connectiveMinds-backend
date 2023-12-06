@@ -12,21 +12,13 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
     let user;
     const userExist = await User.findOne({ email: req.body.email });
     if (userExist) {
-      return res.status(400).json({ message: "User Already registered" });
+      res.sendError(400, "Invalid Credentials", "User Already Registered");
     } else {
       user = await User.create(req.body);
+      res.sendResponse(user);
     }
-    return res.status(200).json({
-      success: true,
-      data: user,
-      message: "Success",
-    });
   } catch (e) {
-    return res.status(500).json({
-      success: false,
-      error: e,
-      message: "Error",
-    });
+    res.sendError(500, e, "Internal Server Error");
   }
 };
 
@@ -35,26 +27,18 @@ export const login = async (req: request<ILogin>, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      if (user.password == req.body.password) {
+      if (user.password === req.body.password) {
         const token = user.createToken();
         res.cookie("token", token);
-        return res.status(200).json({
-          success: true,
-          token: token,
-          message: "Success",
-        });
+        res.sendResponse(token);
       } else {
-        return res.status(400).json({ message: "Incorrect Password" });
+        res.sendError(400, "Invalid Credentials", "Incorrect Password");
       }
     } else {
-      return res.status(400).json({ message: "User doesn't exist" });
+      res.sendError(400, "Invalid Credentials", "User doesn't exist");
     }
   } catch (e) {
-    return res.status(500).json({
-      success: false,
-      error: e,
-      message: "Error",
-    });
+    res.sendError(500, e, "Internal Server Error");
   }
 };
 
