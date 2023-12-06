@@ -19,12 +19,13 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
       required: true,
     },
     name: {
+
       type: String,
       required: true,
     },
     phoneNo: {
       type: Number,
-      unique: true,
+      required: true,
     },
     gender: {
       type: String,

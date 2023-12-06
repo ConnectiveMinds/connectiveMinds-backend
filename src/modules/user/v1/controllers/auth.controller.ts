@@ -9,15 +9,23 @@ interface request<T> extends Request {
 //user register
 export const registerUser = async (req: request<IUser>, res: Response) => {
   try {
+    
+    
     let user;
     const userExist = await User.findOne({ email: req.body.email });
     if (userExist) {
-      res.sendError(400, "Invalid Credentials", "User Already Registered");
+      res.sendError(600, "Invalid Credentials", "User Already Registered");
     } else {
+      // console.log("inside else");
+      // console.log(req.body);
+      
       user = await User.create(req.body);
+      // console.log("below");
       res.sendResponse(user);
     }
   } catch (e) {
+    // console.log("Error:", e);
+    
     res.sendError(500, e, "Internal Server Error");
   }
 };

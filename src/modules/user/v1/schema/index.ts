@@ -6,8 +6,8 @@ export const registerUserSchema = z.object({
       .string({
         required_error: "Name is Required",
         invalid_type_error: "String Required",
-      })
-      .min(5),
+      }),
+      
     email: z
       .string({
         required_error: "Email is Required",
