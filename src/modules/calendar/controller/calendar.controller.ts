@@ -41,6 +41,7 @@ export const CreateEvent = async (req:Request,res:Response)=>
         }
     );
     try{
+        console.log("event adding")
         await calendar.save();
         res.json(calendar);
     }

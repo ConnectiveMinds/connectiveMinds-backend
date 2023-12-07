@@ -11,10 +11,6 @@ export const getideasbyUserId = async (
   try {
     let user;
     let userId = req.user?.userId;
-<<<<<<< HEAD
-=======
-
->>>>>>> 219ea0f21e4dff8b59e5f3670fe61514c14d8bce
     user = await User.findById({ _id: userId });
 
     if (user) {
@@ -56,10 +52,6 @@ export const getIncomingRequest = async (
       }).populate({
         path: "joinRequest",
         select: {
-<<<<<<< HEAD
-=======
-          name: 1,
->>>>>>> 219ea0f21e4dff8b59e5f3670fe61514c14d8bce
           email: 1,
           _id: 1,
         },
@@ -84,11 +76,7 @@ export const getSentRequest = async (req: AuthRequest<Iget>, res: Response) => {
 
       res.sendResponse(request);
     } else {
-<<<<<<< HEAD
       res.sendError(401, "Unauthorized", "User Empty");
-=======
-      res.sendError(401, "Unauthoried", "User Empty");
->>>>>>> 219ea0f21e4dff8b59e5f3670fe61514c14d8bce
     }
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");
