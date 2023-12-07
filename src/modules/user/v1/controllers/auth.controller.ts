@@ -12,9 +12,13 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
     
     
     let user;
-    const userExist = await User.findOne({ email: req.body.email });
+    const userExist =
+      (await User.findOne({ email: req.body.email })) ||
+      (await User.findOne({ email: req.body.phoneNo }));
     if (userExist) {
       res.sendError(600, "Invalid Credentials", "User Already Registered");
+      
+      
     } else {
       // console.log("inside else");
       // console.log(req.body);
