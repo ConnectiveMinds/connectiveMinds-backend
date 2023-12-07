@@ -14,6 +14,7 @@ export const authenticateToken = async (req:Request,res:Response,next:NextFuncti
     const user = jwt.verify(token as string,process.env.JWT_TOKEN as string);
     console.log(user);
     
+    
    
     next()
     }catch(err)

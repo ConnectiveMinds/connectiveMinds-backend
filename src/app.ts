@@ -3,12 +3,22 @@ import { Request, Response } from "express";
 import mongoose, { ConnectOptions } from "mongoose";
 import { dbConfig } from "./config/dbConfig";
 import cors  from 'cors';
+import {v2 as cloudinary} from 'cloudinary';
+
+
 
 
 
 const app: Express = express();
 
-
+cloudinary.config
+(
+  {
+    cloud_name: process.env.CLOUDINARY_API_CLOUD,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  }
+)
 const allowedOrigins = '*';
 
 const options: cors.CorsOptions = {
@@ -19,6 +29,11 @@ const options: cors.CorsOptions = {
 app.use(cors(options));
 
 app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended:true,
+  })
+)
 
 
 //mongooes database

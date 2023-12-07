@@ -23,16 +23,17 @@ export const IdeaDetail = async (req: Request, res: Response) => {
 
 
 export const CreateIdea = async (req: Request, res: Response) => {
-  authenticateToken(req, res, (err: any) => {
+  authenticateToken(req, res,async (err: any) => {
     if (err) {
       // Handle any authentication errors if needed
       return res.status(401).json({ message: 'Authentication failed' });
     }
 
-    const { title, description, status, skills, owner } = req.body;
-
+    const { title, description, status, skills} = req.body;
+    const owner = req.header;
     // Continue with your route logic
-    const idea = createIdeaDB({
+    try{
+    const idea = await createIdeaDB({
       owner,
       title,
       description,
@@ -41,5 +42,10 @@ export const CreateIdea = async (req: Request, res: Response) => {
     });
 
     res.json(idea);
+  }catch(error)
+  {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
   });
 };
