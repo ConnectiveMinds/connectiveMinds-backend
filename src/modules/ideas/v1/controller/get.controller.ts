@@ -49,14 +49,19 @@ export const getIncomingRequest = async (
     if (userId) {
       const request = await Idea.find({
         ownerId: userId,
+        joinRequest: { $ne: [] },
       }).populate({
         path: "joinRequest",
         select: {
+          name: 1,
           email: 1,
           _id: 1,
         },
       });
 
+      if (!request) {
+        res.sendError(400, "Empty", "No Request Found");
+      }
       res.sendResponse(request);
     } else {
       res.sendError(401, "Unauthorized", "User Empty");
@@ -71,9 +76,20 @@ export const getSentRequest = async (req: AuthRequest<Iget>, res: Response) => {
     let userId = req.user?.userId;
     if (userId) {
       const request = await Idea.find({
-        joinRequest: userId,
+        joinRequest: { $in: [userId] },
+        ownerId: { $ne: req.user?.userId },
+      }).populate({
+        path: "joinRequest",
+        select: {
+          name: 1,
+          email: 1,
+          _id: 1,
+        },
       });
 
+      if (!request) {
+        res.sendError(400, "Empty", "No Request Found");
+      }
       res.sendResponse(request);
     } else {
       res.sendError(401, "Unauthorized", "User Empty");

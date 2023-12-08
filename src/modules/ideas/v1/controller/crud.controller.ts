@@ -35,33 +35,33 @@ export const updateRequest = async (
   try {
     let project = await Idea.findOne({
       _id: req.params?.projectId,
-      ownerId: { $ne: req.user?.userId },
+      ownerId: { $ne: [req.user?.userId] },
       members: { $nin: [req.user?.userId] },
       joinRequest: { $nin: [req.user?.userId] },
     });
+
     if (!project) {
       res.sendError(
         400,
         "Invalid Request",
         "Request Already Sent or already a member"
       );
+    } else {
+      let newproject;
+      newproject = await Idea.findByIdAndUpdate(
+        {
+          _id: req.params?.projectId,
+          joinRequest: { $nin: [req.user?.userId] },
+        },
+        {
+          $addToSet: { joinRequest: req.user?.userId },
+        },
+        {
+          new: true,
+        }
+      );
+      res.sendResponse(newproject);
     }
-
-    let newproject;
-    newproject = await Idea.findByIdAndUpdate(
-      {
-        _id: req.params?.projectId,
-        joinRequest: { $nin: [req.user?.userId] },
-      },
-      {
-        $addToSet: { joinRequest: req.user?.userId },
-      },
-      {
-        new: true,
-      }
-    );
-
-    res.sendResponse(newproject);
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");
   }
@@ -100,7 +100,7 @@ export const declineRequset = async (
     let updatedRequest = await Idea.findOneAndUpdate(
       {
         _id: req.params?.projectId,
-        ownerId: req.user?.userId,
+
         joinRequest: { $in: [req.body?.requestId] },
       },
       { $pull: { joinRequest: req.body?.requestId } },
