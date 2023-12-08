@@ -1,5 +1,5 @@
 import { AuthRequest } from "../../../../interface/request.interface";
-import { IIdea, IRequest, IUpdate, Iget } from "../interface";
+import { IIdea, IMember, IRequest, IUpdate, Iget } from "../interface";
 import { Idea } from "../model/ideas.model";
 import { Response } from "express";
 export const CreateIdea = async (
@@ -61,6 +61,33 @@ export const updateRequest = async (
         }
       );
       res.sendResponse(newproject);
+    }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
+
+export const removeMember = async (
+  req: AuthRequest<IMember, {}, IUpdate>,
+  res: Response
+) => {
+  try {
+    let updatedRequest = await Idea.findOneAndUpdate(
+      {
+        _id: req.params?.projectId,
+        ownerId: req.user?.userId,
+        members: { $in: [req.body?.memberId] },
+      },
+      { $pull: { members: req.body?.memberId } },
+      {
+        new: true,
+      }
+    );
+
+    if (updatedRequest == null) {
+      res.sendError(400, "Unauthorized", "No Member Found");
+    } else {
+      res.sendResponse(updatedRequest!);
     }
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");

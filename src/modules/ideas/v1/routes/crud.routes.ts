@@ -3,6 +3,7 @@ import {
   CreateIdea,
   acceptRequset,
   declineRequset,
+  removeMember,
   updateRequest,
 } from "../controller/crud.controller";
 
@@ -12,3 +13,4 @@ postidearoute.post("/", CreateIdea);
 postidearoute.patch("/:projectId", updateRequest);
 postidearoute.patch("/accept/:projectId", acceptRequset);
 postidearoute.patch("/decline/:projectId", declineRequset);
+postidearoute.patch("/remove/:projectId", removeMember);
