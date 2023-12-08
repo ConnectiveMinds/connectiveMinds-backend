@@ -26,11 +26,16 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
 export const login = async (req: request<ILogin>, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+
     if (user) {
       if (user.password === req.body.password) {
         const token = user.createToken();
+
         res.cookie("token", token);
-        res.sendResponse(token);
+        res.sendResponse({
+          token: token,
+          userId: user._id,
+        });
       } else {
         res.sendError(400, "Invalid Credentials", "Incorrect Password");
       }

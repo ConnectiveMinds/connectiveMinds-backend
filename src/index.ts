@@ -12,6 +12,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+
 io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
@@ -21,21 +22,7 @@ io.on("connection", (socket) => {
     socket.to(ownerId).emit("receive_request", data);
   });
   socket.on("send_message", async (data) => {
-    let res = await savemessage({
-      senderId: data.senderId,
-      message: data.message,
-      projectId: data.teamId,
-    });
-    if (res?.success) {
-      console.log("success");
-      let successmessage = {
-        senderId: data.senderId,
-        projectId: data.teamId,
-        message: data.message,
-        success: res.success,
-      };
-      socket.to(data.teamId).emit("receive_message", successmessage);
-    }
+    socket.to(data.projectId).emit("receive_message", data);
   });
 });
 

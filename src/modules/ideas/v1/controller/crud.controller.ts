@@ -36,7 +36,6 @@ export const updateRequest = async (
     let project = await Idea.findById({
       _id: req.params?.projectId,
     });
-
     if (project?.ownerId != req.user?.userId) {
       let newproject;
       newproject = await Idea.findByIdAndUpdate(
@@ -55,6 +54,26 @@ export const updateRequest = async (
     } else {
       res.sendResponse(project!);
     }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
+
+export const acceptRequset = async (
+  req: AuthRequest<{}, {}, IUpdate>,
+  res: Response
+) => {
+  try {
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
+
+export const declineRequset = async (
+  req: AuthRequest<{}, {}, IUpdate>,
+  res: Response
+) => {
+  try {
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");
   }
