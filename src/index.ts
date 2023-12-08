@@ -17,6 +17,7 @@ io.on("connection", (socket) => {
   });
   socket.on("send_request", async (data) => {
     const ownerId = data["ownerId"];
+
     socket.to(ownerId).emit("receive_request", data);
   });
   socket.on("send_message", async (data) => {
