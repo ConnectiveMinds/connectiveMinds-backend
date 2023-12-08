@@ -7,27 +7,32 @@ import { AuthRequest } from "../../../../interface/request.interface";
 interface request<T> extends Request {
   body: T;
 }
-export const savemessage = async (req: request<IChat>, res: Response) => {
+export const savemessage = async (
+  req: AuthRequest<IChat, {}>,
+  res: Response
+) => {
   try {
     let message;
 
     message = await Chat.create({
-      senderId: req.query.senderId,
-      message: req.body.message,
+      senderId: req?.user?.userId,
+      message: req?.body?.message,
+      projectId: req?.body?.projectId,
     });
-    return res.status(200).json({
-      success: true,
-      data: message,
-      message: "Success",
+    const data = await message.populate({
+      path: "senderId",
+      select: {
+        name: 1,
+        _id: 1,
+      },
     });
+
+    res.sendResponse(data);
   } catch (e) {
-    return res.status(500).json({
-      success: false,
-      error: e,
-      message: "Error",
-    });
+    res.sendError(500, e, "Internal Server Error");
   }
 };
+
 export const getallMessages = async (
   req: AuthRequest<{}, {}, IChat>,
   res: Response
@@ -37,6 +42,12 @@ export const getallMessages = async (
     if (project) {
       const messages = await Chat.find({
         projectId: req?.params?.projectId,
+      }).populate({
+        path: "senderId",
+        select: {
+          name: 1,
+          _id: 1,
+        },
       });
       res.sendResponse(messages);
     } else {

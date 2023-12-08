@@ -25,7 +25,6 @@ export const authenticateToken = async (
     req.user = user as IPayload;
     next();
   } catch (err) {
-    console.log(err);
-    res.send(err);
+    res.sendError(401, err, "Token Expired or Empty");
   }
 };
