@@ -4,9 +4,6 @@ import { IChat } from "../interface";
 import { Idea } from "../../../ideas/v1/model/ideas.model";
 import { AuthRequest } from "../../../../interface/request.interface";
 
-interface request<T> extends Request {
-  body: T;
-}
 export const savemessage = async (
   req: AuthRequest<IChat, {}>,
   res: Response
