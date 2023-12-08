@@ -11,7 +11,6 @@ export const getideasbyUserId = async (
   try {
     let user;
     let userId = req.user?.userId;
-
     user = await User.findById({ _id: userId });
 
     if (user) {
@@ -53,7 +52,6 @@ export const getIncomingRequest = async (
       }).populate({
         path: "joinRequest",
         select: {
-          name: 1,
           email: 1,
           _id: 1,
         },
@@ -78,7 +76,7 @@ export const getSentRequest = async (req: AuthRequest<Iget>, res: Response) => {
 
       res.sendResponse(request);
     } else {
-      res.sendError(401, "Unauthoried", "User Empty");
+      res.sendError(401, "Unauthorized", "User Empty");
     }
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");
