@@ -2,8 +2,6 @@ import { app } from "./app";
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
-import { savemessage } from "./modules/chat/v1/services/chat.services";
-
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(app);

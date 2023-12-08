@@ -17,3 +17,7 @@ export interface Iget {
 export interface IUpdate extends IIdea {
   projectId: mongoose.Types.ObjectId;
 }
+
+export interface IRequest {
+  requestId: mongoose.Types.ObjectId;
+}
