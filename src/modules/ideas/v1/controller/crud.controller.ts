@@ -8,6 +8,8 @@ export const CreateIdea = async (
 ) => {
   try {
     const userId = req.user?.userId;
+    console.log(userId);
+    
 
     if (userId) {
       const { title, description, status, joinRequest, skills } =
