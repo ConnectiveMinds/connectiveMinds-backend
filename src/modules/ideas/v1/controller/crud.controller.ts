@@ -15,6 +15,7 @@ export const CreateIdea = async (
       const idea = await Idea.create({
         ownerId: userId,
         title: title,
+        members: [userId],
         description: description,
         skills: skills,
         joinRequest: joinRequest,
@@ -75,7 +76,7 @@ export const removeMember = async (
     let updatedRequest = await Idea.findOneAndUpdate(
       {
         _id: req.params?.projectId,
-        ownerId: req.user?.userId,
+        ownerId: { $ne: req.body?.memberId },
         members: { $in: [req.body?.memberId] },
       },
       { $pull: { members: req.body?.memberId } },

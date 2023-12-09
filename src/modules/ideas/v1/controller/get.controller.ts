@@ -71,6 +71,36 @@ export const getIncomingRequest = async (
   }
 };
 
+export const getallMember = async (
+  req: AuthRequest<Iget, {}, Iget>,
+  res: Response
+) => {
+  try {
+    let userId = req.user?.userId;
+    if (userId) {
+      const project = await Idea.findOne({
+        _id: req.params?.projectId,
+      }).populate({
+        path: "members",
+        select: {
+          name: 1,
+          email: 1,
+          _id: 1,
+        },
+      });
+
+      if (!project) {
+        res.sendError(400, "Empty", "No Project Found");
+      }
+      res.sendResponse(project!);
+    } else {
+      res.sendError(401, "Unauthorized", "User Empty");
+    }
+  } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
+
 export const getSentRequest = async (req: AuthRequest<Iget>, res: Response) => {
   try {
     let userId = req.user?.userId;
