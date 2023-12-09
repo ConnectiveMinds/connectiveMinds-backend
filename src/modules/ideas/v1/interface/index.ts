@@ -11,13 +11,16 @@ export interface IIdea {
 }
 
 export interface Iget {
+  projectId: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
 }
 
 export interface IUpdate extends IIdea {
   projectId: mongoose.Types.ObjectId;
 }
-
+export interface IMember {
+  memberId: mongoose.Types.ObjectId;
+}
 export interface IRequest {
   requestId: mongoose.Types.ObjectId;
 }

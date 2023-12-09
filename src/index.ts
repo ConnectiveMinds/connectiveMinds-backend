@@ -15,10 +15,7 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
   });
-  socket.on("send_request", async (data) => {
-    const ownerId = data["ownerId"];
-    socket.to(ownerId).emit("receive_request", data);
-  });
+
   socket.on("send_message", async (data) => {
     socket.to(data.projectId).emit("receive_message", data);
   });
