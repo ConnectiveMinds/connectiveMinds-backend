@@ -25,6 +25,7 @@ export const CreateReview = async (
 
             const reviewData=await Review.create({
                 userId: userId,
+                name: user.name,
                 review: review,
             });
             

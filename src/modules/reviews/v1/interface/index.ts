@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export interface IReview{
     userId: mongoose.Types.ObjectId;
+    name:String,
     review: String;
 }
 
