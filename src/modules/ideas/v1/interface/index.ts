@@ -11,6 +11,7 @@ export interface IIdea {
 }
 
 export interface Iget {
+  projectId: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
 }
 
