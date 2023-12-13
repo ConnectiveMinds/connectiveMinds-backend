@@ -19,7 +19,7 @@ const ChatSchema = new mongoose.Schema<IChat>(
     },
   },
   {
-    timestamps: true,
+    timestamps: { currentTime: () => Date.now() },
   }
 );
 

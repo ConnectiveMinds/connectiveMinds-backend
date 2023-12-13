@@ -17,6 +17,7 @@ export const authenticateToken = async (
     }
     const authHeader = req?.headers?.authorization;
     const token = authHeader?.split(" ")[1];
+
     if (token == null) {
       res.sendError(401, "Unauthroized", "Token Not Found");
     }
@@ -25,7 +26,6 @@ export const authenticateToken = async (
     req.user = user as IPayload;
     next();
   } catch (err) {
-    console.log(err);
-    res.send(err);
+    res.sendError(401, err, "Token Expired or Empty");
   }
 };

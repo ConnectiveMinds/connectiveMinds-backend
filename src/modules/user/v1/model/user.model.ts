@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
       required: true,
     },
     name: {
-
       type: String,
       required: true,
     },
@@ -37,7 +36,7 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
     },
   },
   {
-    timestamps: true,
+    timestamps: { currentTime: () => Date.now() },
   }
 );
 
