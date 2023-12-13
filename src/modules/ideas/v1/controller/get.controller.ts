@@ -11,6 +11,7 @@ export const getideasbyUserId = async (
   try {
     let user;
     let userId = req.user?.userId;
+
     user = await User.findById({ _id: userId });
 
     if (user) {
