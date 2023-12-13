@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getMessagesRoute } from "./routes/get.routes";
 import { crudmessageroute } from "./routes/crud.routes";
 
-export const chatroute = Router();
+export const router = Router();
 
-chatroute.use("/get", getMessagesRoute);
-chatroute.use("/crud", crudmessageroute);
+router.use("/get", getMessagesRoute);
+router.use("/crud", crudmessageroute);

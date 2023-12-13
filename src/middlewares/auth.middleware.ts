@@ -17,6 +17,7 @@ export const authenticateToken = async (
     }
     const authHeader = req?.headers?.authorization;
     const token = authHeader?.split(" ")[1];
+
     if (token == null) {
       res.sendError(401, "Unauthroized", "Token Not Found");
     }
