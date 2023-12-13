@@ -43,7 +43,7 @@ export const updateRequest = async (
         {
           _id: req.params?.projectId,
         },
-        {
+        {          
           $addToSet: { joinRequest: req.user?.userId },
         },
         {

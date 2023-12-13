@@ -5,4 +5,6 @@ export interface ICalendar extends Document {
     allDay: boolean;
     start: Date;
     end: Date;
+    isOwner:Boolean,
+    assigned_id:[mongoose.Types.ObjectId]
   }

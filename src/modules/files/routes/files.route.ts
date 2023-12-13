@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import {UploadApiResponse,v2 as cloudinary} from 'cloudinary';
 import File from "../model/files"
-import {  getFiles } from "../controller/files.controller";
+import {  deleteFile, getFiles } from "../controller/files.controller";
 const filerouter = express.Router();
 
 const storage = multer.diskStorage({});
@@ -15,6 +15,7 @@ let upload = multer(
 
 
 filerouter.get('/files/:id',getFiles)
+filerouter.delete('/delete/:id',deleteFile);
 
 
 filerouter.post("/upload/:id",upload.single("myFile"),async (req,res)=>
