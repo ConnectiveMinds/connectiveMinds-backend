@@ -3,8 +3,8 @@ import { sendOTPMail } from "../../../../handler/nodeMailer.handler";
 import { OTP } from "../models/otp.model";
 
 export function generateOTP(): number {
-  var minm = 1000;
-  var maxm = 9999;
+  var minm = 100000;
+  var maxm = 999999;
   return Math.floor(Math.random() * (maxm - minm + 1)) + minm;
 }
 

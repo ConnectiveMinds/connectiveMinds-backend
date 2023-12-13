@@ -2,12 +2,11 @@ import { z } from "zod";
 
 export const registerUserSchema = z.object({
   body: z.object({
-    name: z
-      .string({
-        required_error: "Name is Required",
-        invalid_type_error: "String Required",
-      }),
-      
+    name: z.string({
+      required_error: "Name is Required",
+      invalid_type_error: "String Required",
+    }),
+
     email: z
       .string({
         required_error: "Email is Required",
@@ -25,7 +24,7 @@ export const registerUserSchema = z.object({
       .number({
         required_error: "empty phone number",
       })
-      .min(12, "Minimum length should be 12"),
+      .min(10, "Minimum length should be 10"),
   }),
 });
 
