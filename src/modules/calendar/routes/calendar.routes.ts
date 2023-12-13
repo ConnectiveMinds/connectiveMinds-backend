@@ -5,9 +5,9 @@ import {
   DeleteEvent,
 } from "../controller/calendar.controller";
 
-const claendarroute = express.Router();
-claendarroute.get("/:id", getEvents);
-claendarroute.post("/create", CreateEvent);
-claendarroute.delete("/:id", DeleteEvent);
+const calendarroute = express.Router();
+calendarroute.get("/:id", getEvents);
+calendarroute.post("/create", CreateEvent);
+calendarroute.delete("/:id", DeleteEvent);
 
-export { claendarroute };
+export { calendarroute };

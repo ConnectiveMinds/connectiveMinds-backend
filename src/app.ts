@@ -48,6 +48,6 @@ app.get("/", (req: Request, res: Response) => {
 import { authenticateToken } from "./middlewares/auth.middleware";
 //routes
 import { router } from "./routes";
-app.use("/api", authenticateToken, router);
+app.use("/api",  router);
 
 export { app };

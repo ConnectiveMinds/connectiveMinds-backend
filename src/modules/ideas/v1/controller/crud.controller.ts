@@ -56,7 +56,7 @@ export const updateRequest = async (
           _id: req.params?.projectId,
           joinRequest: { $nin: [req.user?.userId] },
         },
-        {
+        {          
           $addToSet: { joinRequest: req.user?.userId },
         },
         {

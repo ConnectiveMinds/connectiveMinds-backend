@@ -38,12 +38,18 @@ const fileSchema = new Schema({
 
 // Interface  "IFile" has all the properties of mongoose document
 interface IFile extends Document{
+    project_idea:string,
     filename: string,
     secure_url: string,
     sizeInByte: string,
     format: string,
     sender?: string,
     receiver?: string,
+}
+
+export interface IDelete extends IFile
+{
+    fileId: mongoose.Types.ObjectId;
 }
 
 //typescript  IFILE interface

@@ -4,7 +4,9 @@ import { ICalendar } from "../interface";
 
 export const getEvents = async (req:Request,res:Response)=>
 {
-    const events = await Calendar.find({userid:req.params.id})
+    const events = await Calendar.find({
+        assigned_id: { $in: req.params.id },
+      });
     try{
     if(events)
     {
@@ -29,7 +31,7 @@ export const getEvents = async (req:Request,res:Response)=>
 
 export const CreateEvent = async (req:Request,res:Response)=>
 {
-    const {title,userid,allDay,start,end} = req.body;
+    const {title,userid,allDay,start,end,isOwner,assigned_id} = req.body;
     const calendar = new Calendar(
         {
             title:title,
@@ -37,6 +39,9 @@ export const CreateEvent = async (req:Request,res:Response)=>
             allDay:allDay,
             start:start,
             end:end,
+            isOwner:isOwner,
+            assigned_id:assigned_id
+            
 
         }
     );
