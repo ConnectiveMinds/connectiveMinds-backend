@@ -1,6 +1,6 @@
 enum gender {
-    M = "M",
-    F = "F"
+  M = "M",
+  F = "F",
 }
 
 export interface IUser {
@@ -12,8 +12,7 @@ export interface IUser {
   gender: gender;
 }
 
-export interface ILogin{
-    email:string,
-    password:string,
+export interface ILogin {
+  email: string;
+  password: string;
 }
-
