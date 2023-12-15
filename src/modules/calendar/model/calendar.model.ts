@@ -1,12 +1,20 @@
-import mongoose, { Document } from "mongoose";
-import { ICalendar } from "../interface";
+import mongoose, { Document, Mongoose } from "mongoose";
+
+interface ICalendar extends Document {
+  projectid: mongoose.Schema.Types.ObjectId;
+  title: string;
+  allDay?: boolean;
+  start: Date;
+  end: Date;
+  isOwner: boolean;
+  assigned_id?: mongoose.Schema.Types.ObjectId;
+}
 
 const CalendarSchema = new mongoose.Schema<ICalendar>(
   {
-    userId: {
+    projectid: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+      required: false,
     },
     title: {
       type: String,

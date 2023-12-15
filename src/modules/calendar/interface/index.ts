@@ -8,3 +8,8 @@ export interface ICalendar extends Document {
   isOwner: boolean;
   assigned_id?: mongoose.Schema.Types.ObjectId[];
 }
+
+export interface IGet {
+  projectId: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
+}

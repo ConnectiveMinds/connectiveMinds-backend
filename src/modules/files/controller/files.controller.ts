@@ -1,29 +1,34 @@
-import express, { Request, Response } from "express";
-import File, { IDelete } from "../model/files"
+import express, { NextFunction, Request, Response } from "express";
+import multer from "multer";
+import File, { IDelete, Iget } from "../model/files"
 import axios from "axios";
 import { AuthRequest } from "../../../interface/request.interface";
 
+import {UploadApiResponse,v2 as cloudinary} from 'cloudinary';
 
-export const getFiles = async(req:Request,res:Response)=>
-{
-    try{
-    
-    const files = await File.find({project_idea:req.params.id});
-    if(files)
-    {
-        res.status(200).json(files);
-    }
-    else
-    {
-        res.status(404).json({ message: 'No Files found' });   
-    }
-    }
-    catch(err)
-    {
-        res.send(err);
-    }
+const storage = multer.diskStorage({});
 
-}
+let upload = multer(
+    {
+        storage
+    }
+)
+export const getFiles = async (req: AuthRequest<{},{},Iget>, res: Response,next:NextFunction) => {
+  try {
+    console.log("rinnung")
+    const files = await File.find({ project_idea: req.params?.projectId });
+    console.log(files)
+
+    if (files.length > 0) {
+      res.status(200).json(files);
+    } else {
+      res.status(404).json({ message: 'No Files found' });
+    }
+  } catch (err) {
+    console.error('Error in getFiles:', err);
+    next(err);
+  }
+};
 
 export const deleteFile = async (req: AuthRequest<{}, {}, IDelete>, res: Response) => {
     try {
@@ -37,6 +42,8 @@ export const deleteFile = async (req: AuthRequest<{}, {}, IDelete>, res: Respons
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send("Internal Server Error");
+      
     }
   };
+
+ 

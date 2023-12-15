@@ -7,7 +7,7 @@ import {
 
 const calendarroute = express.Router();
 calendarroute.get("/:id", getEvents);
-calendarroute.post("/create", CreateEvent);
+calendarroute.post("/create/:id", CreateEvent);
 calendarroute.delete("/:id", DeleteEvent);
 
 export { calendarroute };

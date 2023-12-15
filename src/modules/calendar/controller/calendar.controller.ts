@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import { Calendar } from "../model/calendar.model";
-import { ICalendar } from "../interface";
+import { ICalendar, IGet } from "../interface";
+import { AuthRequest } from "../../../interface/request.interface";
+import { Idea } from "../../ideas/v1/model/ideas.model";
 
 export const getEvents = async (req: Request, res: Response) => {
   const events = await Calendar.find({
@@ -20,23 +22,30 @@ export const getEvents = async (req: Request, res: Response) => {
   }
 };
 
-export const CreateEvent = async (req: Request, res: Response) => {
+export const CreateEvent = async (
+  req: AuthRequest<ICalendar, IGet, IGet>,
+  res: Response
+) => {
   try {
-    const { title, userId, allDay, start, end, isOwner, assigned_id } =
-      req.body;
-    console.log("Hello");
-    const calendar = new Calendar({
-      title: title,
-      userId: userId,
-      allDay: allDay,
-      start: start,
-      end: end,
-      isOwner: isOwner,
-      assigned_id: assigned_id,
+    const projectid = req.params?.projectId;
+    const idea = await Idea.find({
+      _id: projectid,
     });
-    await calendar.save();
-
-    res.sendResponse(calendar);
+    if (idea) {
+      const { title, allDay, start, end, isOwner, assigned_id } =
+        req.body || {};
+      const calendar = await Calendar.create({
+        projectid: projectid,
+        title: title,
+        start: start,
+        end: end,
+        isOwner: isOwner,
+        assigned_id: assigned_id,
+      });
+      res.sendResponse(calendar);
+    } else {
+      res.sendError(400, "Invalid ", "No Project Found");
+    }
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");
   }
