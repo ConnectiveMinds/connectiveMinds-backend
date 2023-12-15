@@ -8,8 +8,6 @@ export const CreateIdea = async (
 ) => {
   try {
     const userId = req.user?.userId;
-    console.log(userId);
-    
 
     if (userId) {
       const { title, description, status, joinRequest, skills } =
@@ -56,7 +54,7 @@ export const updateRequest = async (
           _id: req.params?.projectId,
           joinRequest: { $nin: [req.user?.userId] },
         },
-        {          
+        {
           $addToSet: { joinRequest: req.user?.userId },
         },
         {

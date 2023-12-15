@@ -14,6 +14,7 @@ const CalendarSchema = new mongoose.Schema<ICalendar>(
   {
     projectid: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Idea",
       required: false,
     },
     title: {
