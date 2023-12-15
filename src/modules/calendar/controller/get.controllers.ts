@@ -19,6 +19,7 @@ export async function getEventByUserId(req: AuthRequest, res: Response) {
         .populate({
           path: "projectid",
           select: {
+            _id: 1,
             title: 1,
           },
         });
