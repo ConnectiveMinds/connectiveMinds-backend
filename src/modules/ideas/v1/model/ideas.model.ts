@@ -32,9 +32,6 @@ const IdeaSchema = new mongoose.Schema<IIdea>(
       ref: "User",
     },
   },
-  {
-    timestamps: true,
-  }
 );
 
 export const Idea = mongoose.model<IIdea>("Idea", IdeaSchema);

@@ -9,6 +9,7 @@ export const getideasbyUserId = async (
   res: Response
 ) => {
   try {
+    console.log("getting id")
     let user;
     let userId = req.user?.userId;
 
