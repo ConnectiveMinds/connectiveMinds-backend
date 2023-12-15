@@ -16,10 +16,12 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
       (await User.findOne({ email: req.body.email })) ||
       (await User.findOne({ email: req.body.phoneNo }));
     if (userExist) {
+      console.log("user")
       res.sendError(600, "Duplicate", "User Already Registered");
     } else {
       user = await User.create(req.body);
       res.sendResponse(user);
+      console.log(user)
     }
   } catch (e) {
     // console.log("Error:", e);
@@ -32,11 +34,9 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
 export const login = async (req: request<ILogin>, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-
     if (user) {
       if (user.password === req.body.password) {
         const token = user.createToken();
-
         res.cookie("token", token);
         res.sendResponse({
           token: token,

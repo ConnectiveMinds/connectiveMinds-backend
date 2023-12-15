@@ -3,8 +3,8 @@ import mongoose,{Document}  from "mongoose";
 const Schema = mongoose.Schema;
 
 const fileSchema = new Schema({
-        project_idea:{
-            type: String,
+        project_id:{
+            type: mongoose.Types.ObjectId,
             required:true
         },
         filename: {
@@ -38,7 +38,7 @@ const fileSchema = new Schema({
 
 // Interface  "IFile" has all the properties of mongoose document
 interface IFile extends Document{
-    project_idea:string,
+    project_id:mongoose.Types.ObjectId,
     filename: string,
     secure_url: string,
     sizeInByte: string,
@@ -47,6 +47,9 @@ interface IFile extends Document{
     receiver?: string,
 }
 
+export interface Iget{
+    projectId: mongoose.Types.ObjectId;
+}
 export interface IDelete extends IFile
 {
     fileId: mongoose.Types.ObjectId;
