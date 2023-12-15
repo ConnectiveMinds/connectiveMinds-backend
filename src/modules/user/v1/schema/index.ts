@@ -19,7 +19,6 @@ export const registerUserSchema = z.object({
         invalid_type_error: "String Required",
       })
       .min(6, "Minimum length of password should be 6"),
-
     phoneNo: z
       .number({
         required_error: "empty phone number",

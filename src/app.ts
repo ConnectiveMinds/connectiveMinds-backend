@@ -15,7 +15,9 @@ cloudinary.config({
 const allowedOrigins = "*";
 
 const options: cors.CorsOptions = {
+  credentials: true,
   origin: allowedOrigins,
+  methods: "GET,PUT,POST,DELETE",
 };
 
 // Then pass these options to cors:
