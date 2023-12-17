@@ -9,7 +9,6 @@ export const getideasbyUserId = async (
   res: Response
 ) => {
   try {
-    console.log("getting id")
     let user;
     let userId = req.user?.userId;
 
@@ -26,6 +25,7 @@ export const getideasbyUserId = async (
           },
         ],
       });
+      console.log(groups);
       res.sendResponse(groups);
     }
   } catch (e) {
