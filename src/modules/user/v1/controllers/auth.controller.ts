@@ -20,7 +20,7 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
       console.log("user")
       res.sendError(600, "Duplicate", "User Already Registered");
     } else {
-      req.body.password = await bcryptjs.hash(req.body.password, 10);
+      // req.body.password = await bcryptjs.hash(req.body.password, 10);
       user = await User.create(req.body);
       res.sendResponse(user);
       console.log(user)
