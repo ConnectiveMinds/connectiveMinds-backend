@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 import { ILogin, IUser } from "../interface";
 import { User } from "../model/user.model";
 import { createOTP } from "../../../otp/v1/services";
+import bcryptjs from "bcryptjs"
 
 interface request<T> extends Request {
   body: T;
@@ -19,6 +20,7 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
       console.log("user")
       res.sendError(600, "Duplicate", "User Already Registered");
     } else {
+      req.body.password = await bcryptjs.hash(req.body.password, 10);
       user = await User.create(req.body);
       res.sendResponse(user);
       console.log(user)
