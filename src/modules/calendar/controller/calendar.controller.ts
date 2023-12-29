@@ -42,6 +42,7 @@ export const CreateEvent = async (
         isOwner: isOwner,
         assigned_id: assigned_id,
       });
+      console.log(calendar);
       res.sendResponse(calendar);
     } else {
       res.sendError(400, "Invalid ", "No Project Found");
