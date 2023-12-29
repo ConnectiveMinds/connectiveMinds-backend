@@ -40,11 +40,16 @@ export const UpdateProfile=async(
 ) => {
     try {
         const userId = req.user?.userId;
+        console.log(userId);
+        
+        const name = req.body?.name;
         const profile = await Profile.find({ userId: userId })
+        console.log(profile);
+        
         
         if (profile) {
-            const updatedProfile = await Profile.updateOne(req.body);
-            await User.updateOne()
+            const updatedProfile = await Profile.updateOne({userId:userId},req.body);
+            await User.updateOne({ _id: userId }, { name: name });
             res.sendResponse(updatedProfile);
         }
     }
