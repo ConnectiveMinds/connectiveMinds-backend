@@ -20,7 +20,7 @@ export const CreateProfile = async (
             if (profile) {
                 await Profile.deleteOne({ userId: userId });
             }
-            const createdProfile = await Profile.create({userId:userId,name:user.name
+            const createdProfile = await Profile.create({userId:userId,name:user.name,address:"",gender:"",institution:"",about:""
                 
             })
             res.sendResponse(createdProfile);
@@ -44,6 +44,7 @@ export const UpdateProfile=async(
         
         if (profile) {
             const updatedProfile = await Profile.updateOne(req.body);
+            await User.updateOne()
             res.sendResponse(updatedProfile);
         }
     }
