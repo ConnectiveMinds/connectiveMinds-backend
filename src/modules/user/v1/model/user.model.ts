@@ -34,6 +34,9 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
     address: {
       type: String,
     },
+    skills: {
+      type: [String],
+    },
   },
   {
     timestamps: { currentTime: () => Date.now() },

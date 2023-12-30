@@ -1,8 +1,12 @@
 import { Response } from "express";
 import { Idea } from "../model/ideas.model";
 import { AuthRequest } from "../../../../interface/request.interface";
-import { Iget } from "../interface";
+import { IIdea, Iget } from "../interface";
 import { User } from "../../../user/v1";
+import { i, re } from "mathjs";
+import { recommendProjects } from "../services/similarity.service";
+import { string } from "zod";
+import { IUser } from "../../../user/v1/interface";
 
 export const getideasbyUserId = async (
   req: AuthRequest<Iget>,
@@ -33,10 +37,33 @@ export const getideasbyUserId = async (
   }
 };
 
-export const getallprojects = async (req: AuthRequest<Iget>, res: Response) => {
+export const getallprojects = async (
+  req: AuthRequest<IUser, IUser, Iget>,
+  res: Response
+) => {
   try {
-    const ideas = await Idea.find({});
-    res.sendResponse(ideas);
+    const userId = req.user?.userId;
+    const user: IUser = await User.findById({
+      _id: req.user?.userId,
+    });
+    const joinedprojectskills: IIdea[] = await Idea.find({
+      members: {
+        $in: [userId],
+      },
+    });
+    let skills: string[] = [];
+    skills.push(...user.skills);
+    joinedprojectskills.forEach((project) => {
+      skills.push(...project.skills);
+    });
+
+    const ideas: IIdea[] = await Idea.find({
+      ownerId: { $ne: req.user?.userId },
+      members: { $nin: [req.user?.userId] },
+    });
+
+    const data = recommendProjects(skills, ideas);
+    res.sendResponse(data);
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");
   }

@@ -1,3 +1,4 @@
+import { exp } from "mathjs";
 import mongoose from "mongoose";
 
 export interface IIdea {
@@ -13,6 +14,7 @@ export interface IIdea {
 export interface Iget {
   projectId: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
+  skill: string[];
 }
 
 export interface IUpdate extends IIdea {

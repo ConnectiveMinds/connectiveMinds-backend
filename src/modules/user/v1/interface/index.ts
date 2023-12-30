@@ -10,6 +10,7 @@ export interface IUser {
   password?: string;
   address: string;
   gender: gender;
+  skills: string[];
 }
 
 export interface ILogin {
