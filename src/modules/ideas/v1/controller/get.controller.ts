@@ -7,6 +7,8 @@ import { i, re } from "mathjs";
 import { recommendProjects } from "../services/similarity.service";
 import { string } from "zod";
 import { IUser } from "../../../user/v1/interface";
+import { Profile } from "../../../userprofile/v1/model/userprofile.model";
+import { IProfile } from "../../../userprofile/v1/interface";
 
 export const getideasbyUserId = async (
   req: AuthRequest<Iget>,
@@ -43,7 +45,8 @@ export const getallprojects = async (
 ) => {
   try {
     const userId = req.user?.userId;
-    const user: IUser = await User.findById({
+    let skills: string[] = [];
+    const user: IProfile = await Profile.findById({
       _id: req.user?.userId,
     });
     const joinedprojectskills: IIdea[] = await Idea.find({
@@ -51,8 +54,10 @@ export const getallprojects = async (
         $in: [userId],
       },
     });
-    let skills: string[] = [];
-    skills.push(...user.skills);
+    if (user) {
+      skills.push(...user.skills);
+    }
+
     joinedprojectskills.forEach((project) => {
       skills.push(...project.skills);
     });

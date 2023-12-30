@@ -8,9 +8,8 @@ export interface IUser {
   phoneNo: number;
   email: string;
   password?: string;
-  address: string;
-  gender: gender;
-  skills: string[];
+  // address: string;
+  // gender: gender;
 }
 
 export interface ILogin {

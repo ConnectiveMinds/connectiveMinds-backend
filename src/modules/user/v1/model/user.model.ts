@@ -26,17 +26,14 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
       type: Number,
       required: true,
     },
-    gender: {
-      type: String,
-      enum: ["M", "F", "O"],
-      required: true,
-    },
-    address: {
-      type: String,
-    },
-    skills: {
-      type: [String],
-    },
+    // gender: {
+    //   type: String,
+    //   enum: ["M", "F", "O"],
+    //   required: true,
+    // },
+    // address: {
+    //   type: String,
+    // },
   },
   {
     timestamps: { currentTime: () => Date.now() },

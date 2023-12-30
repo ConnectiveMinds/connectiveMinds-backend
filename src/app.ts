@@ -15,7 +15,7 @@ cloudinary.config({
 const allowedOrigins = "*";
 
 const options: cors.CorsOptions = {
-  credentials: true,
+  // credentials: true,
   origin: allowedOrigins,
 };
 

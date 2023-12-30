@@ -4,6 +4,7 @@ import { User } from "../../../user/v1";
 import { IReview } from "../interface";
 import { Review } from "../model/reviews.model";
 import { Response } from "express";
+import { reviewroute } from "../routes";
 
 export const CreateReview = async (
     req: AuthRequest<IReview, {}, {}>,
@@ -11,6 +12,8 @@ export const CreateReview = async (
 ) => {
     try {
         const userId = req.user?.userId;
+        console.log(req.body);
+        
         let user = await User.findById({ _id: userId })
         console.log(user);
         
