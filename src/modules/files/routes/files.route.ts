@@ -1,7 +1,7 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction, request } from "express";
 import multer from "multer";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
-import File, { IFile, Iget } from "../model/files";
+import File, { IFile } from "../model/files";
 import {
   deleteFile,
   getFiles,
@@ -9,20 +9,12 @@ import {
 } from "../controller/files.controller";
 import { AuthRequest } from "../../../interface/request.interface";
 import mongoose from "mongoose";
+import { uploadFiles } from "../../../app";
 const filerouter = express.Router();
-
-const storage = multer.diskStorage({});
-export interface IPost extends IFile {
-  projectId: mongoose.Schema.Types.ObjectId;
-}
-
-let upload = multer({
-  storage,
-});
 
 filerouter.get("/files/:id", getFiles);
 filerouter.delete("/delete/:id", deleteFile);
 
-filerouter.post("/upload/:projectId", upload.single("myFile"), uploadFile);
+filerouter.post("/upload/", uploadFiles.single("myfile"), uploadFile);
 
 export { filerouter };

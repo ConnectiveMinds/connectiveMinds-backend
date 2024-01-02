@@ -46,6 +46,7 @@ export const getallprojects = async (
   try {
     const userId = req.user?.userId;
     let skills: string[] = [];
+    //@ts-ignore
     const user: IProfile = await Profile.findById({
       _id: req.user?.userId,
     });
@@ -106,7 +107,7 @@ export const getIncomingRequest = async (
 };
 
 export const getallMember = async (
-  req: AuthRequest<Iget, {}, Iget>,
+  req: AuthRequest<{}, {}, Iget>,
   res: Response
 ) => {
   try {

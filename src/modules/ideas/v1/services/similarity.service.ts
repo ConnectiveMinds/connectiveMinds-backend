@@ -28,7 +28,6 @@ export function recommendProjects(
   }
   for (let project of sortedprojects) {
     recommendations.push(project.project);
-    console.log(project.similarity);
   }
 
   return recommendations;
