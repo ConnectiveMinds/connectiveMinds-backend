@@ -46,4 +46,64 @@ export const deleteFile = async (req: AuthRequest<{}, {}, IDelete>, res: Respons
     }
   };
 
+export const uploadFile = async (req: AuthRequest<Iget,Iget,Iget>, 
+  res: Response,
+   next: NextFunction) => {
+  try {
+    console.log('uploading');
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'File should be added' });
+    }
+
+    let uploadedFile: UploadApiResponse | undefined;
+
+    try {
+      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'sharing',
+        resource_type: 'auto',
+      });
+      console.log('Uploaded File:', uploadedFile);
+    } catch (error: any) {
+      console.log(error.message);
+      console.error('Rejection Value:', error);
+      return res.status(400).json({ message: 'Cloudinary Error' });
+    }
+
+    if (!uploadedFile) {
+      return res
+        .status(400)
+        .json({ message: 'Cloudinary Error: File not uploaded' });
+    }
+
+    // Extract project_id from request parameters
+    const project_id = req.params?.projectId;
+    if (!project_id) {
+      return res
+        .status(400)
+        .json({ message: 'Missing project_id in the request parameters' });
+    }
+
+    const { originalname } = req.file;
+    const { secure_url, bytes, format } = uploadedFile;
+
+    const file = await File.create({
+      project_id: project_id,
+      filename: originalname,
+      sizeInByte: bytes.toString(),
+      secure_url,
+      format,
+    });
+
+    res.status(200).json({
+      id: file.id,
+      downloadPagelink: `${process.env.API_BASE_ENDPOINT_CLIENT}download/${file.id}`,
+    });
+  } catch (error: any) {
+    console.log('backend');
+    console.log(error.message);
+    next(error);
+  }
+}
+
  
