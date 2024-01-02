@@ -1,87 +1,93 @@
 import express, { NextFunction, Request, Response } from "express";
 import multer from "multer";
-import File, { IDelete, Iget } from "../model/files"
+import File, { IDelete, Iget } from "../model/files";
 import axios from "axios";
 import { AuthRequest } from "../../../interface/request.interface";
 
-import {UploadApiResponse,v2 as cloudinary} from 'cloudinary';
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 
 const storage = multer.diskStorage({});
 
-let upload = multer(
-    {
-        storage
-    }
-)
-export const getFiles = async (req: AuthRequest<{},{},Iget>, res: Response,next:NextFunction) => {
+let upload = multer({
+  storage,
+});
+export const getFiles = async (
+  req: AuthRequest<{}, {}, Iget>,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    console.log("rinnung")
+    console.log("rinnung");
     const files = await File.find({ project_idea: req.params?.projectId });
-    console.log(files)
+    console.log(files);
 
     if (files.length > 0) {
       res.status(200).json(files);
     } else {
-      res.status(404).json({ message: 'No Files found' });
+      res.status(404).json({ message: "No Files found" });
     }
   } catch (err) {
-    console.error('Error in getFiles:', err);
+    console.error("Error in getFiles:", err);
     next(err);
   }
 };
 
-export const deleteFile = async (req: AuthRequest<{}, {}, IDelete>, res: Response) => {
-    try {
-      const file = await File.findById(req.params?.id);
-  
-      if (file) {
-        await file.deleteOne(); // Corrected syntax to actually delete the file
-        res.send("File Successfully Deleted");
-      } else {
-        res.status(404).send("No file found");
-      }
-    } catch (error) {
-      console.error(error);
-      
-    }
-  };
-
-export const uploadFile = async (req: AuthRequest<Iget,Iget,Iget>, 
-  res: Response,
-   next: NextFunction) => {
+export const deleteFile = async (
+  req: AuthRequest<{}, {}, IDelete>,
+  res: Response
+) => {
   try {
-    console.log('uploading');
+    const file = await File.findById(req.params?.id);
+
+    if (file) {
+      await file.deleteOne(); // Corrected syntax to actually delete the file
+      res.send("File Successfully Deleted");
+    } else {
+      res.status(404).send("No file found");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const uploadFile = async (
+  req: AuthRequest<Iget>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log("uploading");
 
     if (!req.file) {
-      return res.status(400).json({ message: 'File should be added' });
+      return res.status(400).json({ message: "File should be added" });
     }
 
     let uploadedFile: UploadApiResponse | undefined;
 
     try {
       uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'sharing',
-        resource_type: 'auto',
+        folder: "sharing",
+        resource_type: "auto",
       });
-      console.log('Uploaded File:', uploadedFile);
+      console.log("Uploaded File:", uploadedFile);
     } catch (error: any) {
       console.log(error.message);
-      console.error('Rejection Value:', error);
-      return res.status(400).json({ message: 'Cloudinary Error' });
+      console.error("Rejection Value:", error);
+      return res.status(400).json({ message: "Cloudinary Error" });
     }
 
     if (!uploadedFile) {
       return res
         .status(400)
-        .json({ message: 'Cloudinary Error: File not uploaded' });
+        .json({ message: "Cloudinary Error: File not uploaded" });
     }
 
     // Extract project_id from request parameters
-    const project_id = req.params?.projectId;
+    const project_id = req.body?.projectId;
     if (!project_id) {
       return res
         .status(400)
-        .json({ message: 'Missing project_id in the request parameters' });
+        .json({ message: "Missing project_id in the request parameters" });
     }
 
     const { originalname } = req.file;
@@ -100,10 +106,8 @@ export const uploadFile = async (req: AuthRequest<Iget,Iget,Iget>,
       downloadPagelink: `${process.env.API_BASE_ENDPOINT_CLIENT}download/${file.id}`,
     });
   } catch (error: any) {
-    console.log('backend');
+    console.log("backend");
     console.log(error.message);
     next(error);
   }
-}
-
- 
+};

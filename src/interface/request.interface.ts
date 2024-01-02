@@ -1,3 +1,5 @@
+import { exp } from "mathjs";
+
 export interface TypedRequestBody<T> extends Express.Request {
   body: T;
 }
@@ -21,5 +23,7 @@ export interface AuthRequest<Body = {}, Query = {}, Params = {}>
   body?: Body;
   query?: Query;
   params?: Params;
+  files?: any;
+  file?: any;
   url?: string;
 }

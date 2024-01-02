@@ -4,7 +4,7 @@ import mongoose, { ConnectOptions } from "mongoose";
 import { dbConfig } from "./config/db.config";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
-
+import multer from "multer";
 const app: Express = express();
 
 cloudinary.config({
@@ -19,6 +19,28 @@ const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };
 
+const fileStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/assets/resources");
+  },
+  filename: function (req: Request, file: any, cb: any) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+// icons
+const fileFilter = (req: Request, file: any, cb: any) => {
+  if (file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb(new Error("Image uploaded is not of type png"), false);
+  }
+};
+
+export const uploadFiles = multer({
+  storage: fileStorage,
+  fileFilter: fileFilter,
+});
 // Then pass these options to cors:
 app.use(cors(options));
 
@@ -49,6 +71,7 @@ app.get("/", (req: Request, res: Response) => {
 import { authenticateToken } from "./middlewares/auth.middleware";
 //routes
 import { router } from "./routes";
+
 app.use("/api", authenticateToken, router);
 
 export { app };
