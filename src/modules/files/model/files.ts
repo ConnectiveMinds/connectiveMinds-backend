@@ -6,6 +6,7 @@ const fileSchema = new Schema({
         project_id:{
             type: mongoose.Types.ObjectId,
             required:true
+
         },
         filename: {
             type: String,
@@ -37,7 +38,7 @@ const fileSchema = new Schema({
 
 
 // Interface  "IFile" has all the properties of mongoose document
-interface IFile extends Document{
+export interface IFile extends Document{
     project_id:mongoose.Types.ObjectId,
     filename: string,
     secure_url: string,

@@ -6,10 +6,12 @@ import {
   getallprojects,
   getideasbyUserId,
 } from "../controller/get.controller";
+import multer from "multer";
+
 
 export const getIdeaRoute = Router();
 getIdeaRoute.get("/", getideasbyUserId);
 getIdeaRoute.get("/all", getallprojects);
 getIdeaRoute.get("/joinrequest", getIncomingRequest);
 getIdeaRoute.get("/sentrequest", getSentRequest);
-getIdeaRoute.get("/:projectId", getallMember);
+getIdeaRoute.get("/:projectId",  getallMember);
