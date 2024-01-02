@@ -15,6 +15,6 @@ const filerouter = express.Router();
 filerouter.get("/files/:id", getFiles);
 filerouter.delete("/delete/:id", deleteFile);
 
-filerouter.post("/upload/:projectId", uploadFiles.single("myfile"), uploadFile);
+filerouter.post("/upload/", uploadFiles.single("myfile"), uploadFile);
 
 export { filerouter };
