@@ -15,7 +15,7 @@ const ProfileSchema = new mongoose.Schema<IProfile>(
     },
     gender: {
       type: String,
-      enum: ["M", "F", "O",""],
+      enum: ["M", "F", "O", ""],
     },
     address: {
       type: String,
@@ -24,8 +24,8 @@ const ProfileSchema = new mongoose.Schema<IProfile>(
     institution: {
       type: String,
     },
-    about: {
-      type: String,
+    skills: {
+      type: [String],
     },
   },
   {

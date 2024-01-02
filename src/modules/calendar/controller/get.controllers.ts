@@ -18,7 +18,8 @@ export async function getEventByUserId(req: AuthRequest, res: Response) {
           },
         })
         .sort({ start: -1 })
-        .limit(5);
+        .limit(6);
+
       res.sendResponse(events);
     }
   } catch (e) {
