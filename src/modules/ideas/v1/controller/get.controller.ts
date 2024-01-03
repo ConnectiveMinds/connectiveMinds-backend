@@ -3,7 +3,6 @@ import { Idea } from "../model/ideas.model";
 import { AuthRequest } from "../../../../interface/request.interface";
 import { IIdea, Iget } from "../interface";
 import { User } from "../../../user/v1";
-import { i, re } from "mathjs";
 import { recommendProjects } from "../services/similarity.service";
 import { string } from "zod";
 import { IUser } from "../../../user/v1/interface";

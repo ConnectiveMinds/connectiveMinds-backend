@@ -12,9 +12,13 @@ import mongoose from "mongoose";
 import { uploadFiles } from "../../../app";
 const filerouter = express.Router();
 
-filerouter.get("/files/:id", getFiles);
+const storage = multer.diskStorage({});
+let upload = multer({
+  storage,
+});
+filerouter.get("/files/:projectId", getFiles);
 filerouter.delete("/delete/:id", deleteFile);
 
-filerouter.post("/upload/", uploadFiles.single("myfile"), uploadFile);
+filerouter.post("/upload/", upload.single("file"), uploadFile);
 
 export { filerouter };
