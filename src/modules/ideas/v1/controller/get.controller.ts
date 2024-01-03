@@ -69,6 +69,7 @@ export const getallprojects = async (
     if (user) {
       skills.push(...user.skills);
     }
+
     joinedprojectskills.forEach((project) => {
       project.skills.map((skill) => {
         let smallskill = skill.toLowerCase();

@@ -23,7 +23,7 @@ export const updateProfileImage = async (
 ) => {
   try {
     const userId = req.user?.userId;
-
+    console.log(userId);
     if (req.file) {
       let uploadedFile: UploadApiResponse | undefined;
       try {

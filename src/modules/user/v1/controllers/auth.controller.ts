@@ -19,7 +19,6 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
     } else {
       const salt = bcrypt.genSaltSync(10);
       req.body.password = bcrypt.hashSync(req.body.password, salt);
-      req.body.password = await bcrypt.hash(req.body.password, 10);
       user = await User.create(req.body);
       res.sendResponse(user);
       console.log(user);
@@ -34,7 +33,8 @@ export const login = async (req: request<ILogin>, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      if (req.body.password == user.password) {
+      const hashedpass = user.password;
+      if (bcrypt.compareSync(req.body.password, hashedpass)) {
         const token = user.createToken();
         res.cookie("token", token);
         res.sendResponse({

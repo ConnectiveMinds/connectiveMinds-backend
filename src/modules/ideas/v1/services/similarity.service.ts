@@ -26,7 +26,7 @@ export function recommendProjects(
 
     const similarityScore = cosineSimilarity(userSkills, projectskill);
 
-    if (similarityScore >= 0.2) {
+    if (similarityScore >= 0.1) {
       sortedprojects.push({ project: project, similarity: similarityScore });
     }
 
