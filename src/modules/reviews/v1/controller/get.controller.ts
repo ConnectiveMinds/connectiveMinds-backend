@@ -3,7 +3,7 @@ import { Iget } from "../../../ideas/v1/interface";
 import { Review } from "../model/reviews.model";
 import { Response } from "express";
 
-export const GetReviews = async (req: AuthRequest<Iget>, res: Response) => {
+export const getReviews = async (req: AuthRequest<Iget>, res: Response) => {
   try {
     const reviews = await Review.find({}).populate({
       path: "userId",

@@ -36,7 +36,10 @@ export const getideasbyUserId = async (
     res.sendError(500, e, "Internal Server Error");
   }
 };
-export const getprojectforlandingpage = async (req: Request, res: Response) => {
+export const getprojectforlandingpage = async (
+  req: AuthRequest,
+  res: Response
+) => {
   try {
     const ideas = await Idea.find({}).limit(4);
 
