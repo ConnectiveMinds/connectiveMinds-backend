@@ -19,14 +19,7 @@ const options: cors.CorsOptions = {
   origin: allowedOrigins,
 };
 
-const fileStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/assets/resources");
-  },
-  filename: function (req: Request, file: any, cb: any) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
+const fileStorage = multer.diskStorage({});
 
 // icons
 const fileFilter = (req: Request, file: any, cb: any) => {
@@ -68,6 +61,8 @@ mongoose
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hello, there" });
 });
+import { getprojectforlandingpage } from "./modules/ideas/v1/controller/get.controller";
+app.use("/landing", getprojectforlandingpage);
 import { authenticateToken } from "./middlewares/auth.middleware";
 //routes
 import { router } from "./routes";

@@ -3,6 +3,7 @@ import { Idea } from "../model/ideas.model";
 import { AuthRequest } from "../../../../interface/request.interface";
 import { IIdea, Iget } from "../interface";
 import { User } from "../../../user/v1";
+import { exp, i, re } from "mathjs";
 import { recommendProjects } from "../services/similarity.service";
 import { string } from "zod";
 import { IUser } from "../../../user/v1/interface";
@@ -37,6 +38,16 @@ export const getideasbyUserId = async (
     res.sendError(500, e, "Internal Server Error");
   }
 };
+export const getprojectforlandingpage = async (req: Request, res: Response) => {
+  try {
+    const ideas = await Idea.find({}).limit(4);
+
+    res.sendResponse(ideas);
+  } catch (e) {
+    console.log(e);
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
 
 export const getallprojects = async (
   req: AuthRequest<IUser, IUser, Iget>,
@@ -57,9 +68,11 @@ export const getallprojects = async (
     if (user) {
       skills.push(...user.skills);
     }
-
     joinedprojectskills.forEach((project) => {
-      skills.push(...project.skills);
+      project.skills.map((skill) => {
+        let smallskill = skill.toLowerCase();
+        skills.push(smallskill);
+      });
     });
 
     const ideas: IIdea[] = await Idea.find({

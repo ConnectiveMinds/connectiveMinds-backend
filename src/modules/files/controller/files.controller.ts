@@ -71,7 +71,6 @@ export const uploadFile = async (
         folder: "sharing",
         resource_type: "auto",
       });
-      console.log("Uploaded File:", uploadedFile);
     } catch (error: any) {
       console.log(error.message);
       console.error("Rejection Value:", error);
@@ -86,6 +85,7 @@ export const uploadFile = async (
 
     // Extract project_id from request parameters
     const project_id = req.body?.projectId;
+    console.log(project_id);
     if (!project_id) {
       return res
         .status(400)

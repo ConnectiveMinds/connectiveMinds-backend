@@ -12,6 +12,7 @@ export const CreateIdea = async (
     if (userId) {
       const { title, description, status, joinRequest, skills } =
         req.body || {};
+
       const idea = await Idea.create({
         ownerId: userId,
         title: title,
