@@ -58,9 +58,11 @@ export const getallprojects = async (
     if (user) {
       skills.push(...user.skills);
     }
-
     joinedprojectskills.forEach((project) => {
-      skills.push(...project.skills);
+      project.skills.map((skill) => {
+        let smallskill = skill.toLowerCase();
+        skills.push(smallskill);
+      });
     });
 
     const ideas: IIdea[] = await Idea.find({
