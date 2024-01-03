@@ -18,7 +18,13 @@ export function recommendProjects(
 
   let sortedprojects: { project: IIdea; similarity: number }[] = [];
   for (let project of projects) {
-    const similarityScore = cosineSimilarity(userSkills, project.skills);
+    let projectskill: string[] = [];
+    project.skills.map((skill) => {
+      let sskill = skill.toLowerCase();
+      projectskill.push(sskill);
+    });
+
+    const similarityScore = cosineSimilarity(userSkills, projectskill);
 
     if (similarityScore >= 0.2) {
       sortedprojects.push({ project: project, similarity: similarityScore });

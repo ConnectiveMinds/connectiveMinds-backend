@@ -20,7 +20,6 @@ const ProfileSchema = new mongoose.Schema<IProfile>(
     address: {
       type: String,
     },
-
     institution: {
       type: String,
     },
