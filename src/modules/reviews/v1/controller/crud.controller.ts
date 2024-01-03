@@ -7,36 +7,27 @@ import { Response } from "express";
 import { reviewroute } from "../routes";
 
 export const CreateReview = async (
-    req: AuthRequest<IReview, {}, {}>,
-    res:Response
+  req: AuthRequest<IReview, {}, {}>,
+  res: Response
 ) => {
-    try {
-        const userId = req.user?.userId;
-        console.log(req.body);
-        
-        let user = await User.findById({ _id: userId })
-        console.log(user);
-        
-        let userReview = await Review.find({userId:userId })
-        console.log(userReview)
+  try {
+    const userId = req.user?.userId;
 
-        if (user) {
-            if (userReview) {
-                await Review.deleteOne({userId:userId});
-            }
-            const { review } = req.body || {};
+    let userReview = await Review.find({ userId: userId });
+    console.log(userReview);
 
-            const reviewData=await Review.create({
-                userId: userId,
-                name: user.name,
-                review: review,
-            });
-            
-            res.sendResponse(reviewData);
-            
-        }
+    if (userReview) {
+      await Review.deleteOne({ userId: userId });
     }
-    catch(e:any) {
-        res.sendError(500,e,"internal server error")
-    }
-}
+    const { review } = req.body || {};
+
+    const reviewData = await Review.create({
+      userId: userId,
+      review: review,
+    });
+
+    res.sendResponse(reviewData);
+  } catch (e: any) {
+    res.sendError(500, e, "internal server error");
+  }
+};

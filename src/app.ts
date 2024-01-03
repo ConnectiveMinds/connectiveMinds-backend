@@ -21,18 +21,8 @@ const options: cors.CorsOptions = {
 
 const fileStorage = multer.diskStorage({});
 
-// icons
-const fileFilter = (req: Request, file: any, cb: any) => {
-  if (file.mimetype === "image/png") {
-    cb(null, true);
-  } else {
-    cb(new Error("Image uploaded is not of type png"), false);
-  }
-};
-
 export const uploadFiles = multer({
   storage: fileStorage,
-  fileFilter: fileFilter,
 });
 // Then pass these options to cors:
 app.use(cors(options));
