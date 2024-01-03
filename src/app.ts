@@ -61,6 +61,8 @@ mongoose
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hello, there" });
 });
+import { getprojectforlandingpage } from "./modules/ideas/v1/controller/get.controller";
+app.use("/landing", getprojectforlandingpage);
 import { authenticateToken } from "./middlewares/auth.middleware";
 //routes
 import { router } from "./routes";

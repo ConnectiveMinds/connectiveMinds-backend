@@ -3,7 +3,7 @@ import { Idea } from "../model/ideas.model";
 import { AuthRequest } from "../../../../interface/request.interface";
 import { IIdea, Iget } from "../interface";
 import { User } from "../../../user/v1";
-import { i, re } from "mathjs";
+import { exp, i, re } from "mathjs";
 import { recommendProjects } from "../services/similarity.service";
 import { string } from "zod";
 import { IUser } from "../../../user/v1/interface";
@@ -35,6 +35,16 @@ export const getideasbyUserId = async (
       res.sendResponse(groups);
     }
   } catch (e) {
+    res.sendError(500, e, "Internal Server Error");
+  }
+};
+export const getprojectforlandingpage = async (req: Request, res: Response) => {
+  try {
+    const ideas = await Idea.find({}).limit(4);
+
+    res.sendResponse(ideas);
+  } catch (e) {
+    console.log(e);
     res.sendError(500, e, "Internal Server Error");
   }
 };
