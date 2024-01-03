@@ -19,6 +19,6 @@ let upload = multer({
 filerouter.get("/files/:projectId", getFiles);
 filerouter.delete("/delete/:id", deleteFile);
 
-filerouter.post("/upload/", uploadFiles.single("myfile"), uploadFile);
+filerouter.post("/upload/", uploadFiles.single("file"), uploadFile);
 
 export { filerouter };
