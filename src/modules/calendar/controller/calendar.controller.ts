@@ -3,11 +3,10 @@ import { Calendar } from "../model/calendar.model";
 import { ICalendar, IGet } from "../interface";
 import { AuthRequest } from "../../../interface/request.interface";
 import { Idea } from "../../ideas/v1/model/ideas.model";
+import { Iget } from "../../files/model/files";
 
-export const getEvents = async (req: Request, res: Response) => {
-  const events = await Calendar.find({
-    assigned_id: { $in: req.params.id },
-  });
+export const getEvents = async (req: AuthRequest<{}, {}, Iget>, res: Response) => {
+  const events = await Calendar.find({projectid: req.params?.projectId});
   try {
     if (events) {
       res.status(200).json(events);
@@ -17,7 +16,7 @@ export const getEvents = async (req: Request, res: Response) => {
   } catch (err) {
     res.send;
     {
-      message: "No Event Found";
+      message: "No Event Found";`      `
     }
   }
 };

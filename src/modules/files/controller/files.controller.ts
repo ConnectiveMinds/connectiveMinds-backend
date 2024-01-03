@@ -18,7 +18,9 @@ export const getFiles = async (
 ) => {
   try {
     console.log("rinnung");
-    const files = await File.find({ project_idea: req.params?.projectId });
+    const projectId = req.params?.projectId;
+    console.log(projectId);
+    const files = await File.find({ project_id: req.params?.projectId});
     console.log(files);
 
     if (files.length > 0) {
