@@ -6,7 +6,7 @@ import {
 } from "../controller/calendar.controller";
 
 const calendarroute = express.Router();
-calendarroute.get("/:id", getEvents);
+calendarroute.get("/:projectId", getEvents);
 calendarroute.post("/create/:projectId", CreateEvent);
 calendarroute.delete("/:id", DeleteEvent);
 
