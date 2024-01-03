@@ -43,6 +43,7 @@ export const getallMessages = async (
         path: "senderId",
         select: {
           name: 1,
+          avatar: 1,
           _id: 1,
         },
       });

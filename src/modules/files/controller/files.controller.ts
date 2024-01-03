@@ -58,8 +58,6 @@ export const uploadFile = async (
   next: NextFunction
 ) => {
   try {
-    console.log("uploading");
-
     if (!req.file) {
       return res.status(400).json({ message: "File should be added" });
     }
@@ -72,8 +70,6 @@ export const uploadFile = async (
         resource_type: "auto",
       });
     } catch (error: any) {
-      console.log(error.message);
-      console.error("Rejection Value:", error);
       return res.status(400).json({ message: "Cloudinary Error" });
     }
 
@@ -85,7 +81,7 @@ export const uploadFile = async (
 
     // Extract project_id from request parameters
     const project_id = req.body?.projectId;
-    console.log(project_id);
+
     if (!project_id) {
       return res
         .status(400)

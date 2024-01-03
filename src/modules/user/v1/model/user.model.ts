@@ -9,6 +9,12 @@ export interface IUserSchema extends IUser {
 
 const UserSchema = new mongoose.Schema<IUserSchema>(
   {
+    avatar: {
+      type: String,
+    },
+    institution: {
+      type: String,
+    },
     email: {
       type: String,
       unique: true,
@@ -28,6 +34,13 @@ const UserSchema = new mongoose.Schema<IUserSchema>(
     },
     skills: {
       type: [String],
+    },
+    gender: {
+      type: String,
+      enum: ["M", "F", "O", ""],
+    },
+    address: {
+      type: String,
     },
   },
   {
