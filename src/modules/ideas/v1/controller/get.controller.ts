@@ -3,12 +3,10 @@ import { Idea } from "../model/ideas.model";
 import { AuthRequest } from "../../../../interface/request.interface";
 import { IIdea, Iget } from "../interface";
 import { User } from "../../../user/v1";
-import { exp, i, re } from "mathjs";
+
 import { recommendProjects } from "../services/similarity.service";
-import { string } from "zod";
+
 import { IUser } from "../../../user/v1/interface";
-import { Profile } from "../../../userprofile/v1/model/userprofile.model";
-import { IProfile } from "../../../userprofile/v1/interface";
 
 export const getideasbyUserId = async (
   req: AuthRequest<Iget>,
@@ -57,7 +55,7 @@ export const getallprojects = async (
     const userId = req.user?.userId;
     let skills: string[] = [];
     //@ts-ignore
-    const user: IProfile = await Profile.findById({
+    const user: IUser = await User.findById({
       _id: req.user?.userId,
     });
     const joinedprojectskills: IIdea[] = await Idea.find({
