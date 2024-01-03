@@ -2,6 +2,8 @@ import { Response, Request } from "express";
 import { ILogin, IUser } from "../interface";
 import { User } from "../model/user.model";
 import { createOTP } from "../../../otp/v1/services";
+import { AuthRequest } from "../../../../interface/request.interface";
+import { re } from "mathjs";
 
 interface request<T> extends Request {
   body: T;
@@ -16,7 +18,6 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
       (await User.findOne({ email: req.body.email })) ||
       (await User.findOne({ email: req.body.phoneNo }));
     if (userExist) {
-      console.log("user");
       res.sendError(600, "Duplicate", "User Already Registered");
     } else {
       // req.body.password = await bcryptjs.hash(req.body.password, 10);
@@ -53,5 +54,3 @@ export const login = async (req: request<ILogin>, res: Response) => {
     res.sendError(500, e, "Internal Server Error");
   }
 };
-
-//otp

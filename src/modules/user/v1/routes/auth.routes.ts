@@ -1,20 +1,10 @@
-import  {Router}  from "express";
-import { 
-    registerUserSchema , 
-    loginSchema,} from "../schema";
+import { Router } from "express";
+import { registerUserSchema, loginSchema } from "../schema";
 import validateResource from "../middleware/validateResources";
-import { 
-    registerUser,
-    login,
- } from "../controllers/auth.controller";
+import { registerUser, login } from "../controllers/auth.controller";
 
-export const authrouter =Router();
+export const authrouter = Router();
 
+authrouter.post("/signup", validateResource(registerUserSchema), registerUser);
 
-authrouter.post("/signup",
-validateResource(registerUserSchema) ,
-registerUser)
-
-authrouter.post("/login",validateResource(loginSchema),login)
-
-
+authrouter.post("/login", validateResource(loginSchema), login);
