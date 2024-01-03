@@ -19,9 +19,7 @@ export const getFiles = async (
   try {
     console.log("rinnung");
     const projectId = req.params?.projectId;
-    console.log(projectId);
     const files = await File.find({ project_id: req.params?.projectId});
-    console.log(files);
 
     if (files.length > 0) {
       res.status(200).json(files);
@@ -104,7 +102,6 @@ export const uploadFile = async (
       downloadPagelink: `${process.env.API_BASE_ENDPOINT_CLIENT}download/${file.id}`,
     });
   } catch (error: any) {
-    console.log("backend");
     console.log(error.message);
     next(error);
   }

@@ -11,7 +11,7 @@ export const authenticateToken = async (
     if (
       req.url?.includes("auth") ||
       req.url?.includes("otp") ||
-      req.url?.includes("getreviews")
+      req.url?.includes("reviews")
     ) {
       return next();
     }
