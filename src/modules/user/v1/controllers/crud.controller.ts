@@ -1,6 +1,5 @@
 import { AuthRequest } from "../../../../interface/request.interface";
-import { IProfile } from "../../../userprofile/v1/interface";
-import { Profile } from "../../../userprofile/v1/model/userprofile.model";
+
 import { User } from "../model/user.model";
 import { Response } from "express";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
@@ -12,7 +11,7 @@ export const updateProfileImage = async (
 ) => {
   try {
     const userId = req.user?.userId;
-    console.log(userId, req.file.path);
+
     if (req.file) {
       let uploadedFile: UploadApiResponse | undefined;
       try {
@@ -29,6 +28,7 @@ export const updateProfileImage = async (
           .json({ message: "Cloudinary Error: File not uploaded" });
       }
       let avatar = uploadedFile.secure_url;
+      console.log(avatar);
       const updatedProfile = await User.findByIdAndUpdate(
         { _id: userId },
         {

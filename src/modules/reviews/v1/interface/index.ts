@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
-export interface IReview{
-    userId: mongoose.Types.ObjectId;
-    name:String,
-    review: String;
+export interface IReview {
+  userId: mongoose.Types.ObjectId;
+  review: String;
 }
 
-export interface IGet{
-    userId: mongoose.Types.ObjectId;
+export interface IGet {
+  userId: mongoose.Types.ObjectId;
 }

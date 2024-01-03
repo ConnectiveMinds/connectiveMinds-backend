@@ -8,7 +8,11 @@ export const authenticateToken = async (
   next: NextFunction
 ) => {
   try {
-    if (req.url?.includes("auth") || req.url?.includes("otp")) {
+    if (
+      req.url?.includes("auth") ||
+      req.url?.includes("otp") ||
+      req.url?.includes("getreviews")
+    ) {
       return next();
     }
     const authHeader = req?.headers?.authorization;
