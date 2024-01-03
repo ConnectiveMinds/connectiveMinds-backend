@@ -36,7 +36,10 @@ export const getideasbyUserId = async (
     res.sendError(500, e, "Internal Server Error");
   }
 };
-export const getprojectforlandingpage = async (req: AuthRequest, res: Response) => {
+export const getprojectforlandingpage = async (
+  req: AuthRequest,
+  res: Response
+) => {
   try {
     const ideas = await Idea.find({}).limit(4);
 
@@ -66,6 +69,7 @@ export const getallprojects = async (
     if (user) {
       skills.push(...user.skills);
     }
+
     joinedprojectskills.forEach((project) => {
       project.skills.map((skill) => {
         let smallskill = skill.toLowerCase();

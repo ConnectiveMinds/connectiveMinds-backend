@@ -4,14 +4,26 @@ import { User } from "../model/user.model";
 import { Response } from "express";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import { IUser } from "../interface";
-
+export const updateUserDeatils = async (
+  req: AuthRequest<IUser, {}, {}>,
+  res: Response
+) => {
+  try {
+    const userId = req.user?.userId;
+    const user = await User.findByIdAndUpdate({ _id: userId }, req.body);
+    console.log(user);
+    res.sendResponse(user!);
+  } catch (e) {
+    res.sendError(500, e, "internal server error");
+  }
+};
 export const updateProfileImage = async (
   req: AuthRequest<IUser, {}, {}>,
   res: Response
 ) => {
   try {
     const userId = req.user?.userId;
-
+    console.log(userId);
     if (req.file) {
       let uploadedFile: UploadApiResponse | undefined;
       try {

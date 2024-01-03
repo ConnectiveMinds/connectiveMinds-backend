@@ -1,10 +1,7 @@
 import { Response, Request } from "express";
 import { ILogin, IUser } from "../interface";
 import { User } from "../model/user.model";
-import { createOTP } from "../../../otp/v1/services";
-import { AuthRequest } from "../../../../interface/request.interface";
-import { re } from "mathjs";
-
+import bcrypt from "bcryptjs";
 interface request<T> extends Request {
   body: T;
 }
@@ -20,14 +17,13 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
     if (userExist) {
       res.sendError(600, "Duplicate", "User Already Registered");
     } else {
-      // req.body.password = await bcryptjs.hash(req.body.password, 10);
+      const salt = bcrypt.genSaltSync(10);
+      req.body.password = bcrypt.hashSync(req.body.password, salt);
       user = await User.create(req.body);
       res.sendResponse(user);
       console.log(user);
     }
   } catch (e) {
-    // console.log("Error:", e);
-
     res.sendError(500, e, "Internal Server Error");
   }
 };
@@ -37,7 +33,8 @@ export const login = async (req: request<ILogin>, res: Response) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      if (user.password === req.body.password) {
+      const hashedpass = user.password;
+      if (bcrypt.compareSync(req.body.password, hashedpass)) {
         const token = user.createToken();
         res.cookie("token", token);
         res.sendResponse({

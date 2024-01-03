@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { uploadFiles } from "../../../../app";
-import { updateProfileImage } from "../controllers/crud.controller";
+import {
+  updateProfileImage,
+  updateUserDeatils,
+} from "../controllers/crud.controller";
 
 export const crudrouter = Router();
 
@@ -9,3 +12,4 @@ crudrouter.patch(
   uploadFiles.single("myprofile"),
   updateProfileImage
 );
+crudrouter.patch("/", updateUserDeatils);
