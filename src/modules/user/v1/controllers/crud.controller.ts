@@ -11,7 +11,7 @@ export const updateUserDeatils = async (
   try {
     const userId = req.user?.userId;
     const user = await User.findByIdAndUpdate({ _id: userId }, req.body);
-    console.log(user);
+
     res.sendResponse(user!);
   } catch (e) {
     res.sendError(500, e, "internal server error");
@@ -23,7 +23,7 @@ export const updateProfileImage = async (
 ) => {
   try {
     const userId = req.user?.userId;
-    console.log(userId);
+
     if (req.file) {
       let uploadedFile: UploadApiResponse | undefined;
       try {
@@ -40,7 +40,7 @@ export const updateProfileImage = async (
           .json({ message: "Cloudinary Error: File not uploaded" });
       }
       let avatar = uploadedFile.secure_url;
-      console.log(avatar);
+
       const updatedProfile = await User.findByIdAndUpdate(
         { _id: userId },
         {
