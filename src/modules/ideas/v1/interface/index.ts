@@ -1,4 +1,3 @@
-import { exp } from "mathjs";
 import mongoose from "mongoose";
 
 export interface IIdea {

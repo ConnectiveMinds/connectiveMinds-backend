@@ -21,7 +21,6 @@ export const registerUser = async (req: request<IUser>, res: Response) => {
       req.body.password = bcrypt.hashSync(req.body.password, salt);
       user = await User.create(req.body);
       res.sendResponse(user);
-      console.log(user);
     }
   } catch (e) {
     res.sendError(500, e, "Internal Server Error");

@@ -29,7 +29,7 @@ export const getideasbyUserId = async (
           },
         ],
       });
-      console.log(groups);
+
       res.sendResponse(groups);
     }
   } catch (e) {
