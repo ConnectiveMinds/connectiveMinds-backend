@@ -67,7 +67,10 @@ export const getallprojects = async (
       },
     });
     if (user) {
-      skills.push(...user.skills);
+      user.skills.map((skill) => {
+        let smallskill = skill.toLowerCase();
+        skills.push(smallskill);
+      });
     }
 
     joinedprojectskills.forEach((project) => {
